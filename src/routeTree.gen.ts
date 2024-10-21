@@ -16,8 +16,10 @@ import { Route as AppImport } from './routes/_app'
 import { Route as AuthIndexImport } from './routes/_auth.index'
 import { Route as AuthSignupImport } from './routes/_auth.signup'
 import { Route as AuthLoginImport } from './routes/_auth.login'
+import { Route as AppProgressImport } from './routes/_app.progress'
 import { Route as AppProfileImport } from './routes/_app.profile'
 import { Route as AppDashboardImport } from './routes/_app.dashboard'
+import { Route as AppGameSynAntImport } from './routes/_app.game.syn-ant'
 
 // Create/Update Routes
 
@@ -46,6 +48,11 @@ const AuthLoginRoute = AuthLoginImport.update({
   getParentRoute: () => AuthRoute,
 } as any)
 
+const AppProgressRoute = AppProgressImport.update({
+  path: '/progress',
+  getParentRoute: () => AppRoute,
+} as any)
+
 const AppProfileRoute = AppProfileImport.update({
   path: '/profile',
   getParentRoute: () => AppRoute,
@@ -53,6 +60,11 @@ const AppProfileRoute = AppProfileImport.update({
 
 const AppDashboardRoute = AppDashboardImport.update({
   path: '/dashboard',
+  getParentRoute: () => AppRoute,
+} as any)
+
+const AppGameSynAntRoute = AppGameSynAntImport.update({
+  path: '/game/syn-ant',
   getParentRoute: () => AppRoute,
 } as any)
 
@@ -88,6 +100,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppProfileImport
       parentRoute: typeof AppImport
     }
+    '/_app/progress': {
+      id: '/_app/progress'
+      path: '/progress'
+      fullPath: '/progress'
+      preLoaderRoute: typeof AppProgressImport
+      parentRoute: typeof AppImport
+    }
     '/_auth/login': {
       id: '/_auth/login'
       path: '/login'
@@ -109,6 +128,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthIndexImport
       parentRoute: typeof AuthImport
     }
+    '/_app/game/syn-ant': {
+      id: '/_app/game/syn-ant'
+      path: '/game/syn-ant'
+      fullPath: '/game/syn-ant'
+      preLoaderRoute: typeof AppGameSynAntImport
+      parentRoute: typeof AppImport
+    }
   }
 }
 
@@ -117,11 +143,15 @@ declare module '@tanstack/react-router' {
 interface AppRouteChildren {
   AppDashboardRoute: typeof AppDashboardRoute
   AppProfileRoute: typeof AppProfileRoute
+  AppProgressRoute: typeof AppProgressRoute
+  AppGameSynAntRoute: typeof AppGameSynAntRoute
 }
 
 const AppRouteChildren: AppRouteChildren = {
   AppDashboardRoute: AppDashboardRoute,
   AppProfileRoute: AppProfileRoute,
+  AppProgressRoute: AppProgressRoute,
+  AppGameSynAntRoute: AppGameSynAntRoute,
 }
 
 const AppRouteWithChildren = AppRoute._addFileChildren(AppRouteChildren)
@@ -144,18 +174,22 @@ export interface FileRoutesByFullPath {
   '': typeof AuthRouteWithChildren
   '/dashboard': typeof AppDashboardRoute
   '/profile': typeof AppProfileRoute
+  '/progress': typeof AppProgressRoute
   '/login': typeof AuthLoginRoute
   '/signup': typeof AuthSignupRoute
   '/': typeof AuthIndexRoute
+  '/game/syn-ant': typeof AppGameSynAntRoute
 }
 
 export interface FileRoutesByTo {
   '': typeof AppRouteWithChildren
   '/dashboard': typeof AppDashboardRoute
   '/profile': typeof AppProfileRoute
+  '/progress': typeof AppProgressRoute
   '/login': typeof AuthLoginRoute
   '/signup': typeof AuthSignupRoute
   '/': typeof AuthIndexRoute
+  '/game/syn-ant': typeof AppGameSynAntRoute
 }
 
 export interface FileRoutesById {
@@ -164,25 +198,45 @@ export interface FileRoutesById {
   '/_auth': typeof AuthRouteWithChildren
   '/_app/dashboard': typeof AppDashboardRoute
   '/_app/profile': typeof AppProfileRoute
+  '/_app/progress': typeof AppProgressRoute
   '/_auth/login': typeof AuthLoginRoute
   '/_auth/signup': typeof AuthSignupRoute
   '/_auth/': typeof AuthIndexRoute
+  '/_app/game/syn-ant': typeof AppGameSynAntRoute
 }
 
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '' | '/dashboard' | '/profile' | '/login' | '/signup' | '/'
+  fullPaths:
+    | ''
+    | '/dashboard'
+    | '/profile'
+    | '/progress'
+    | '/login'
+    | '/signup'
+    | '/'
+    | '/game/syn-ant'
   fileRoutesByTo: FileRoutesByTo
-  to: '' | '/dashboard' | '/profile' | '/login' | '/signup' | '/'
+  to:
+    | ''
+    | '/dashboard'
+    | '/profile'
+    | '/progress'
+    | '/login'
+    | '/signup'
+    | '/'
+    | '/game/syn-ant'
   id:
     | '__root__'
     | '/_app'
     | '/_auth'
     | '/_app/dashboard'
     | '/_app/profile'
+    | '/_app/progress'
     | '/_auth/login'
     | '/_auth/signup'
     | '/_auth/'
+    | '/_app/game/syn-ant'
   fileRoutesById: FileRoutesById
 }
 
@@ -216,7 +270,9 @@ export const routeTree = rootRoute
       "filePath": "_app.tsx",
       "children": [
         "/_app/dashboard",
-        "/_app/profile"
+        "/_app/profile",
+        "/_app/progress",
+        "/_app/game/syn-ant"
       ]
     },
     "/_auth": {
@@ -235,6 +291,10 @@ export const routeTree = rootRoute
       "filePath": "_app.profile.tsx",
       "parent": "/_app"
     },
+    "/_app/progress": {
+      "filePath": "_app.progress.tsx",
+      "parent": "/_app"
+    },
     "/_auth/login": {
       "filePath": "_auth.login.tsx",
       "parent": "/_auth"
@@ -246,6 +306,10 @@ export const routeTree = rootRoute
     "/_auth/": {
       "filePath": "_auth.index.tsx",
       "parent": "/_auth"
+    },
+    "/_app/game/syn-ant": {
+      "filePath": "_app.game.syn-ant.tsx",
+      "parent": "/_app"
     }
   }
 }

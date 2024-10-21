@@ -2,7 +2,7 @@ import { createRootRoute, Outlet } from '@tanstack/react-router'
 
 export const Route = createRootRoute({
   component: () => (
-    <>
+    <main className='min-h-screen flex flex-col '>
       {/* <div className="p-2 flex gap-2">
         <Link to="/" className="[&.active]:font-bold">
           Home
@@ -14,6 +14,6 @@ export const Route = createRootRoute({
       <hr /> */}
       <Outlet />
       {/* <TanStackRouterDevtools /> */}
-    </>
+    </main>
   ),
 })
