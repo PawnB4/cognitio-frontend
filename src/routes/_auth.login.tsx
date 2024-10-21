@@ -21,6 +21,7 @@ function LogIn() {
       password: '',
       email: '',
     },
+  
     onSubmit: async ({ value }) => {
       // TODO API call to Log in
       // if (!res.ok) {
@@ -29,6 +30,7 @@ function LogIn() {
       // form.reset();
       // const data = await res.json()
       // console.log("Data from server: ", data)
+      console.log(value)
       navigate({to:"/profile"})
     },
   })

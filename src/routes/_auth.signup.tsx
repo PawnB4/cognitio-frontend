@@ -23,6 +23,7 @@ function SignUp() {
       password: '',
       email: '',
     },
+
     onSubmit: async ({ value }) => {
       // TODO sign up the user
       // if (!res.ok) {
@@ -31,6 +32,7 @@ function SignUp() {
       // form.reset();
       // const data = await res.json()
       // console.log("Data from server: ", data)
+      console.log(value)
       navigate({ to: "/profile" })
     },
   })
