@@ -4,6 +4,7 @@ import { CircleArrowLeft } from 'lucide-react'
 import { useQuery, useQueryClient } from '@tanstack/react-query'
 import { useState } from 'react'
 import { SynAntGameScreen } from '@/components/SynAntGameScreen'
+import { SpinningIndicator } from '@/components/SpinningIndicator'
 
 export const Route = createFileRoute('/_app/game/syn-ant')({
   component: SynAntGame,
@@ -33,7 +34,7 @@ const generateGame = async (difficultyLevel: number) => {
 //     method: "POST",
 //     headers: {
 //       "Content-Type": "application/json",
-//       "Authorization": `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJhZ3VzQGV4YW1wbGUuY29tIiwiZXhwIjoxNzI5ODI3MjQzfQ.6BTeEM6GmfYEz6bdEEyr7RFi5O8qc80Ln2OniKgg7Mo`
+//       "Authorization": `Bearer ${token}`
 //     },
 //     body: JSON.stringify({
 //       level: 1,
@@ -65,7 +66,7 @@ function SynAntGame() {
     // await generateProgress(cantidadCorrectas, cantidadIncorrectas)
   }
 
-  const { data: ejercicios, isPending, error } = useQuery({ queryKey: ["generate-game", difficultyLevel], queryFn: () => generateGame(difficultyLevel), })
+  const { data: ejercicios, isPending, error, refetch } = useQuery({ queryKey: ["generate-game", difficultyLevel], queryFn: () => generateGame(difficultyLevel), enabled: false })
 
   if (error) {
     return (
@@ -87,7 +88,7 @@ function SynAntGame() {
         </Link>
       </div>
       <div className='flex justify-center p-4'>
-        <div className='bg-[#3B1F83] rounded-lg flex flex-col md:flex-row gap-8 px-4 py-8 w-full lg:w-[1200px] lg:h-[750px] md:w-[800px] md:h-[500px] justify-center items-center md:items-stretch md:justify-around'>
+        <div className='bg-[#3B1F83] rounded-lg flex flex-col md:flex-row gap-8 px-4 py-8 w-full min-h-[450px] lg:w-[1200px] lg:h-[750px] md:w-[800px] md:h-[500px] justify-center items-center md:items-stretch md:justify-around'>
           {gameStatus === "unstarted" &&
             <>
               <img
@@ -115,7 +116,6 @@ function SynAntGame() {
                         className={`text-xl w-full font-bold 
                           ${difficultyLevel === dificultades.indexOf(dificultad) + 1 && "bg-rose-300 border-rose-300"}`}
                         variant={'outline'}
-                        disabled={isPending}
                         onClick={() => setDifficultyLevel(dificultades.indexOf(dificultad) + 1)}
                       >{dificultad.toUpperCase()}</Button>
                     )
@@ -125,16 +125,35 @@ function SynAntGame() {
                 <Button
                   size={'lg'}
                   className='w-3/4 text-xl font-bold'
-                  disabled={isPending}
-                  onClick={() => setGameStatus("inProgress")}
-                >{isPending ? "..." : "COMENZAR"}</Button>
+                  onClick={() => {
+                    // Ejecutar query
+                    refetch()
+                    setGameStatus("inProgress")
+                  }}
+                >COMENZAR</Button>
                 <div></div>
               </div>
             </>
           }
           {
-            gameStatus === "inProgress" &&
-            <SynAntGameScreen ejercicios={ejercicios} incrementarCorrectas={incrementarCorrectas} incrementarIncorrectas={incrementarIncorrectas} finalizarJuego={finalizarJuego} />
+            gameStatus === "inProgress" ? (
+              !isPending ? (
+                <SynAntGameScreen
+                  ejercicios={ejercicios}
+                  incrementarCorrectas={incrementarCorrectas}
+                  incrementarIncorrectas={incrementarIncorrectas}
+                  finalizarJuego={finalizarJuego}
+                />
+              ) : (
+                
+                <div className='w-full h-full relative flex justify-center items-center '>
+                  <h1 className='absolute top-0 md:top-10 font-extrabold font-title text-4xl text-white text-balance text-center '>CARGANDO...</h1>
+                  <SpinningIndicator
+                    size={20}
+                    />
+                </div>
+              )
+            ) : null
           }
           {gameStatus === "finished" &&
             <div
@@ -162,7 +181,7 @@ function SynAntGame() {
                 size={'lg'}
                 className='text-xl font-bold'
                 disabled={isPending}
-                onClick={() => setGameStatus("inProgress")}
+                onClick={() => setGameStatus("unstarted")}
               >
                 <Link to='/dashboard'>
                   VOLVER AL INICIO
