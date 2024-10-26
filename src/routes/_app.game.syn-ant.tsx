@@ -42,7 +42,6 @@ function SynAntGame() {
     enabled: false
   })
 
-  console.log(ejercicios)
 
   if (error) {
     return (

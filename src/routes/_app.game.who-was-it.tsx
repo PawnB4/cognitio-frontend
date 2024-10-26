@@ -75,7 +75,6 @@ function WhoWasItGame() {
     queryFn: () => fakeGameRequest(),
     enabled: false
   })
-  console.log(ejercicios)
 
   if (error) {
     return (
