@@ -1,7 +1,6 @@
 
 import { useState, useEffect } from "react";
 import { CircleCheck, CircleX } from "lucide-react";
-import { Separator } from "./ui/separator";
 
 
 type Ejercicio = {
