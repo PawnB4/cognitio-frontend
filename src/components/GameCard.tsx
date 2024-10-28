@@ -11,7 +11,7 @@ import { Link } from "@tanstack/react-router"
 
 
 
-type GameType = "guess" | "who-was-it" | "syn-ant";
+type GameType = "read-and-conclude" | "who-was-it" | "syn-ant";
 
 interface GameCardProps {
   title: string;

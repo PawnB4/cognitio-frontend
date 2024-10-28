@@ -1,7 +1,6 @@
 
 import { useState, useEffect } from "react";
 import { CircleCheck, CircleX } from "lucide-react";
-import { Separator } from "./ui/separator";
 
 
 type Ejercicio = {
@@ -11,7 +10,7 @@ type Ejercicio = {
   opciones_incorrectas: string[];
 };
 
-type WhoWasItGameScreenProps = {
+type ReadAndConcludeGameScreenProps = {
   ejercicios: Ejercicio[];
   incrementarCorrectas: () => void;
   incrementarIncorrectas: () => void;
@@ -20,7 +19,7 @@ type WhoWasItGameScreenProps = {
 
 type EjercicioStatus = "win" | "loose" | "inProgress"
 
-export function WhoWasItGameScreen({ ejercicios, incrementarCorrectas, incrementarIncorrectas, finalizarJuego }: WhoWasItGameScreenProps) {
+export function ReadAndConcludeGameScreen({ ejercicios, incrementarCorrectas, incrementarIncorrectas, finalizarJuego }: ReadAndConcludeGameScreenProps) {
   const [ejercicioCounter, setEjercicioCounter] = useState(0);
   const [correctasCounter, setCorrectasCounter] = useState(0);
   const [ejercicioFlag, setEjercicioFlag] = useState<EjercicioStatus>("inProgress");
@@ -71,25 +70,26 @@ export function WhoWasItGameScreen({ ejercicios, incrementarCorrectas, increment
     return (
       <div className="flex relative justify-around items-center flex-col md:w-3/4 gap-5">
         <span
-          className="md:absolute top-0 right-0 text-md md:text-2xl text-white font-bold pt-2"
+          className="md:absolute top-0 -right-12 text-md md:text-2xl text-white font-bold pt-2"
         >
           {ejercicioCounter + 1} / {ejercicios.length}
         </span>
         <h1 className="font-bold text-xl md:text-4xl text-white text-balance text-center">
           {ejercicioActual.texto}
         </h1>
+        <div></div>
         <h2 className="font-extrabold w-full font-title 
-        rounded-xl py-2 text-xl md:text-4xl text-white text-balance text-center bg-[#9C34C2]">
+        rounded-xl py-2 text-2xl md:text-4xl text-white text-balance text-center bg-[#9C34C2]">
           {ejercicioActual.pregunta}
         </h2>
-
+        <div></div>
         {/* Renderizar las opciones de forma aleatoria */}
         <div className="w-full flex flex-col gap-4">
           {opciones.map((opcion, index) => (
             <button
               key={index}
               onClick={() => handleOptionClick(opcion)}
-              className={`w-full text-center py-4 px-2 md:p-4 text-white text-2xl md:text-3xl rounded-2xl bg-[#7960EA]`}>
+              className={`w-full text-center p-2 md:p-4 text-white text-lg text-balance rounded-2xl md:text-2xl bg-[#7960EA]`}>
               {opcion.toUpperCase()}
             </button>
           ))}

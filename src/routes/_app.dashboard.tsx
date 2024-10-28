@@ -19,9 +19,9 @@ function Dashboard() {
       >
         <GameCard 
         imgUrl={"https://images.pexels.com/photos/39896/space-station-moon-landing-apollo-15-james-irwin-39896.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"} 
-        title={"Adivina la historia"} 
-        description={"Lee una historia y descubrí las pistas adivinando lo que pasa después."}
-        game='guess'
+        title={"Lee y Concluye"} 
+        description={"Lee el texto con atención y selecciona la respuesta correcta según lo que entiendas del párrafo."}
+        game='read-and-conclude'
         />
         <GameCard 
         imgUrl={"https://images.pexels.com/photos/946071/pexels-photo-946071.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"} 

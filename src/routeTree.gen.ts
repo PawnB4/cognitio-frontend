@@ -21,6 +21,7 @@ import { Route as AppProfileImport } from './routes/_app.profile'
 import { Route as AppDashboardImport } from './routes/_app.dashboard'
 import { Route as AppGameWhoWasItImport } from './routes/_app.game.who-was-it'
 import { Route as AppGameSynAntImport } from './routes/_app.game.syn-ant'
+import { Route as AppGameReadAndConcludeImport } from './routes/_app.game.read-and-conclude'
 
 // Create/Update Routes
 
@@ -71,6 +72,11 @@ const AppGameWhoWasItRoute = AppGameWhoWasItImport.update({
 
 const AppGameSynAntRoute = AppGameSynAntImport.update({
   path: '/game/syn-ant',
+  getParentRoute: () => AppRoute,
+} as any)
+
+const AppGameReadAndConcludeRoute = AppGameReadAndConcludeImport.update({
+  path: '/game/read-and-conclude',
   getParentRoute: () => AppRoute,
 } as any)
 
@@ -134,6 +140,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthIndexImport
       parentRoute: typeof AuthImport
     }
+    '/_app/game/read-and-conclude': {
+      id: '/_app/game/read-and-conclude'
+      path: '/game/read-and-conclude'
+      fullPath: '/game/read-and-conclude'
+      preLoaderRoute: typeof AppGameReadAndConcludeImport
+      parentRoute: typeof AppImport
+    }
     '/_app/game/syn-ant': {
       id: '/_app/game/syn-ant'
       path: '/game/syn-ant'
@@ -157,6 +170,7 @@ interface AppRouteChildren {
   AppDashboardRoute: typeof AppDashboardRoute
   AppProfileRoute: typeof AppProfileRoute
   AppProgressRoute: typeof AppProgressRoute
+  AppGameReadAndConcludeRoute: typeof AppGameReadAndConcludeRoute
   AppGameSynAntRoute: typeof AppGameSynAntRoute
   AppGameWhoWasItRoute: typeof AppGameWhoWasItRoute
 }
@@ -165,6 +179,7 @@ const AppRouteChildren: AppRouteChildren = {
   AppDashboardRoute: AppDashboardRoute,
   AppProfileRoute: AppProfileRoute,
   AppProgressRoute: AppProgressRoute,
+  AppGameReadAndConcludeRoute: AppGameReadAndConcludeRoute,
   AppGameSynAntRoute: AppGameSynAntRoute,
   AppGameWhoWasItRoute: AppGameWhoWasItRoute,
 }
@@ -193,6 +208,7 @@ export interface FileRoutesByFullPath {
   '/login': typeof AuthLoginRoute
   '/signup': typeof AuthSignupRoute
   '/': typeof AuthIndexRoute
+  '/game/read-and-conclude': typeof AppGameReadAndConcludeRoute
   '/game/syn-ant': typeof AppGameSynAntRoute
   '/game/who-was-it': typeof AppGameWhoWasItRoute
 }
@@ -205,6 +221,7 @@ export interface FileRoutesByTo {
   '/login': typeof AuthLoginRoute
   '/signup': typeof AuthSignupRoute
   '/': typeof AuthIndexRoute
+  '/game/read-and-conclude': typeof AppGameReadAndConcludeRoute
   '/game/syn-ant': typeof AppGameSynAntRoute
   '/game/who-was-it': typeof AppGameWhoWasItRoute
 }
@@ -219,6 +236,7 @@ export interface FileRoutesById {
   '/_auth/login': typeof AuthLoginRoute
   '/_auth/signup': typeof AuthSignupRoute
   '/_auth/': typeof AuthIndexRoute
+  '/_app/game/read-and-conclude': typeof AppGameReadAndConcludeRoute
   '/_app/game/syn-ant': typeof AppGameSynAntRoute
   '/_app/game/who-was-it': typeof AppGameWhoWasItRoute
 }
@@ -233,6 +251,7 @@ export interface FileRouteTypes {
     | '/login'
     | '/signup'
     | '/'
+    | '/game/read-and-conclude'
     | '/game/syn-ant'
     | '/game/who-was-it'
   fileRoutesByTo: FileRoutesByTo
@@ -244,6 +263,7 @@ export interface FileRouteTypes {
     | '/login'
     | '/signup'
     | '/'
+    | '/game/read-and-conclude'
     | '/game/syn-ant'
     | '/game/who-was-it'
   id:
@@ -256,6 +276,7 @@ export interface FileRouteTypes {
     | '/_auth/login'
     | '/_auth/signup'
     | '/_auth/'
+    | '/_app/game/read-and-conclude'
     | '/_app/game/syn-ant'
     | '/_app/game/who-was-it'
   fileRoutesById: FileRoutesById
@@ -293,6 +314,7 @@ export const routeTree = rootRoute
         "/_app/dashboard",
         "/_app/profile",
         "/_app/progress",
+        "/_app/game/read-and-conclude",
         "/_app/game/syn-ant",
         "/_app/game/who-was-it"
       ]
@@ -328,6 +350,10 @@ export const routeTree = rootRoute
     "/_auth/": {
       "filePath": "_auth.index.tsx",
       "parent": "/_auth"
+    },
+    "/_app/game/read-and-conclude": {
+      "filePath": "_app.game.read-and-conclude.tsx",
+      "parent": "/_app"
     },
     "/_app/game/syn-ant": {
       "filePath": "_app.game.syn-ant.tsx",
