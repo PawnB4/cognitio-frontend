@@ -1,30 +1,52 @@
-import { createFileRoute, Link } from '@tanstack/react-router'
-import { Button } from '@/components/ui/button'
+import { createFileRoute, Link } from "@tanstack/react-router";
+import { CircleArrowLeft } from "lucide-react";
+import { ProfileCard } from "@/components/ProfileCard";
 
-
-export const Route = createFileRoute('/_app/profile')({
+export const Route = createFileRoute("/_app/profile")({
   component: Profile,
-})
-
-
+});
 
 function Profile() {
-  return (
-    <div className='col-span-full flex flex-col gap-24'>
-      <div></div>
-      <div>
-        <Button asChild variant={'link'}>
-        <Link to='/dashboard' className='text-red-400'>
-          VOLVER
-        </Link>
+  const handleChangeCharacter = () => {
+    // Implement character change logic here
+    console.log("Change character clicked");
+  };
 
-        </Button>
+  return (
+    <div className="col-span-full flex flex-col">
+      {/* Back button section */}
+      <div className="w-11/12 mx-auto mt-12 mb-8 hidden md:block">
+        <Link
+          to="/dashboard"
+          className="flex select-none items-center gap-4 cursor-pointer group"
+        >
+          <CircleArrowLeft
+            fill="#4ABC96"
+            stroke="white"
+            size={60}
+            strokeWidth={1}
+            className="group-hover:scale-105 transition-transform"
+          />
+          <span className="text-2xl font-bold text-white tracking-wide">
+            Volver
+          </span>
+        </Link>
       </div>
-      <div>
-        <p>Profile</p>
+
+      {/* Main content container */}
+      <div className="flex justify-center px-4">
+        <div>
+          {/* Profile Card */}
+          <ProfileCard
+            name="Juan Perez"
+            date="Septiembre 24 2001"
+            avatarUrl="/path-to-your-bear-avatar.png"
+            onChangeCharacter={handleChangeCharacter}
+          />
+        </div>
       </div>
     </div>
-
-
-  )
+  );
 }
+
+export default Profile;
