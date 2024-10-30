@@ -6,10 +6,16 @@ export const Route = createFileRoute("/_app/profile")({
   component: Profile,
 });
 
+interface Character {
+  id: number;
+  image: string;
+  alt: string;
+}
+
 function Profile() {
-  const handleChangeCharacter = () => {
+  const handleChangeCharacter = (character: Character) => {
     // Implement character change logic here
-    console.log("Change character clicked");
+    console.log("Character changed:", character);
   };
 
   return (
