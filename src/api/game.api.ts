@@ -1,4 +1,5 @@
-import axios from "./axios";
+/* eslint-disable @typescript-eslint/no-explicit-any */
+import {client} from "./client";
 
 type GenerateGameOptions = {
     game_number: number;
@@ -6,8 +7,15 @@ type GenerateGameOptions = {
     number_excercises: number;
 }
 
-export const generateGameRequest = async (options: GenerateGameOptions) =>{
-    const res = await axios.post(`/game/generate`, options);
-    return res.data.ejercicios
-}
+type GameResponse = {
+    ejercicios: any[];
+};
+
+// POST request example
+export const generateGameRequest = async (gameOptions: GenerateGameOptions): Promise<GameResponse> => {
+    const res = await client.post<GameResponse>("/game/generate", gameOptions);
+    console.log(res)
+    return res.ejercicios;
+};
+
 

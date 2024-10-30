@@ -1,4 +1,4 @@
-import axios from "./axios";
+import {client} from "./client";
 
 type GenerateProgressOptions = {
   level: number;
@@ -8,7 +8,7 @@ type GenerateProgressOptions = {
 }
 
 export const generateProgressRequest = async (options: GenerateProgressOptions) =>{
-  const res = await axios.post(`/progress`, options);
-  return res.data
+  // const res = await client.post(`/progress`, options);
+  // return res.
 }
 
