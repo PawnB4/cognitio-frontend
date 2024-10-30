@@ -7,11 +7,11 @@ interface ProfileCardProps {
   name: string;
   date: string;
   avatarUrl?: string;
-  onChangeCharacter?: () => void;
+  onChangeCharacter: (character: Character) => void;
 }
 
 // Character options array
-const characters = [
+const characters: Character[] = [
   {
     id: 1,
     image:
@@ -62,6 +62,12 @@ const characters = [
   },
 ];
 
+interface Character {
+  id: number;
+  image: string;
+  alt: string;
+}
+
 export function ProfileCard({
   name,
   date,
@@ -71,12 +77,10 @@ export function ProfileCard({
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [selectedCharacter, setSelectedCharacter] = useState(1); // Default character ID
 
-  const handleCharacterSelect = (character) => {
+  const handleCharacterSelect = (character: Character) => {
     setSelectedCharacter(character.id);
     setIsDialogOpen(false);
-    if (onChangeCharacter) {
-      onChangeCharacter(character);
-    }
+    onChangeCharacter(character);
   };
 
   return (

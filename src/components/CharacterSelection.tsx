@@ -1,10 +1,14 @@
-import React, { useState } from "react";
 import { Avatar, AvatarImage, AvatarFallback } from "@radix-ui/react-avatar";
 import { Check, X } from "lucide-react";
-import { Button } from "@/components/ui/button";
+
+interface Character {
+  id: number;
+  image: string;
+  alt: string;
+}
 
 // Character options array
-const characters = [
+const characters: Character[] = [
   {
     id: 1,
     image:
@@ -55,12 +59,19 @@ const characters = [
   },
 ];
 
+interface CharacterSelectionProps {
+  isOpen: boolean;
+  onClose: () => void;
+  onSelect: (character: Character) => void;
+  currentCharacter: number | null;
+}
+
 export function CharacterSelection({
   isOpen,
   onClose,
   onSelect,
   currentCharacter,
-}) {
+}: CharacterSelectionProps) {
   if (!isOpen) return null;
 
   return (
