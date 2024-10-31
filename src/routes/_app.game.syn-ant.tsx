@@ -14,6 +14,22 @@ export const Route = createFileRoute('/_app/game/syn-ant')({
   component: SynAntGame,
 })
 
+const generateGame = async () => {
+  const res = await fetch("https://cognitio-back-production.up.railway.app/game/generate/", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      game_number: 1,
+      difficulty: 1,
+      number_excercises: 5,
+    }),
+  });
+  const data = await res.json();
+  console.log(data)
+  return data.ejercicios;
+};
 
 type GameStatus = "unstarted" | "inProgress" | "finished"
 
@@ -58,6 +74,9 @@ function SynAntGame() {
   return (
     <div className="col-span-full flex flex-col gap-14">
       <div></div>
+      <button
+        onClick={generateGame}
+      >PROBAR ENDPONT</button>
       <div className='md:flex w-11/12 mx-auto hidden'>
         <Link to="/dashboard" className="flex select-none items-center gap-4 cursor-pointer">
           <CircleArrowLeft fill='#4ABC96' stroke='white' size={60} strokeWidth={1} />

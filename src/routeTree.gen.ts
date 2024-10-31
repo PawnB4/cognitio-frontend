@@ -36,46 +36,55 @@ const AppRoute = AppImport.update({
 } as any)
 
 const AuthIndexRoute = AuthIndexImport.update({
+  id: '/',
   path: '/',
   getParentRoute: () => AuthRoute,
 } as any)
 
 const AuthSignupRoute = AuthSignupImport.update({
+  id: '/signup',
   path: '/signup',
   getParentRoute: () => AuthRoute,
 } as any)
 
 const AuthLoginRoute = AuthLoginImport.update({
+  id: '/login',
   path: '/login',
   getParentRoute: () => AuthRoute,
 } as any)
 
 const AppProgressRoute = AppProgressImport.update({
+  id: '/progress',
   path: '/progress',
   getParentRoute: () => AppRoute,
 } as any)
 
 const AppProfileRoute = AppProfileImport.update({
+  id: '/profile',
   path: '/profile',
   getParentRoute: () => AppRoute,
 } as any)
 
 const AppDashboardRoute = AppDashboardImport.update({
+  id: '/dashboard',
   path: '/dashboard',
   getParentRoute: () => AppRoute,
 } as any)
 
 const AppGameWhoWasItRoute = AppGameWhoWasItImport.update({
+  id: '/game/who-was-it',
   path: '/game/who-was-it',
   getParentRoute: () => AppRoute,
 } as any)
 
 const AppGameSynAntRoute = AppGameSynAntImport.update({
+  id: '/game/syn-ant',
   path: '/game/syn-ant',
   getParentRoute: () => AppRoute,
 } as any)
 
 const AppGameReadAndConcludeRoute = AppGameReadAndConcludeImport.update({
+  id: '/game/read-and-conclude',
   path: '/game/read-and-conclude',
   getParentRoute: () => AppRoute,
 } as any)

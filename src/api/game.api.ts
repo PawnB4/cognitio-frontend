@@ -11,5 +11,6 @@ export const generateGameRequest = async (
         "/game/generate",
         gameOptions
     );
+    console.log(response)
     return response.ejercicios;
 };
