@@ -22,16 +22,17 @@ async function request<TResponse, TBody = unknown>(
   url: string,
   { method, body }: RequestOptions<TBody>
 ): Promise<TResponse> {
-  const response = await fetch(`${baseURL}${url}`, {
+  const normalizedUrl = url.endsWith('/') ? url : `${url}/`;
+  
+  const response = await fetch(`${baseURL}${normalizedUrl}`, {
     method,
     headers: {
       "Content-Type": "application/json",
     },
     body: body ? JSON.stringify(body) : undefined,
-    redirect: 'follow',
   });
 
-  if (!response.ok && ![301, 302, 303, 307, 308].includes(response.status)) {
+  if (!response.ok) {
     throw new ApiError(
       await response.text(),
       response.status,
