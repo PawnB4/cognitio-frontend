@@ -22,7 +22,10 @@ async function request<TResponse, TBody = unknown>(
   url: string,
   { method, body }: RequestOptions<TBody>
 ): Promise<TResponse> {
-  const response = await fetch(`${baseURL}${url}`, {
+  const endpoint = `${baseURL}${url}`
+  console.log("ABSTRACTION ENDPOINT: ", endpoint)
+  console.log("ABSTRACTION BODY: ", body)
+  const response = await fetch(endpoint, {
     method,
     headers: {
       "Content-Type": "application/json",
@@ -33,12 +36,11 @@ async function request<TResponse, TBody = unknown>(
   console.log("Response from abstraction: ", response)
 
   if (!response.ok) {
-    // throw new ApiError(
-    //   await response.text(),
-    //   response.status,
-    //   response.statusText
-    // );
-    throw new Error("internal server error")
+    throw new ApiError(
+      await response.text(),
+      response.status,
+      response.statusText
+    );
   }
 
   return response.json() as Promise<TResponse>;

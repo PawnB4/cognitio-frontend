@@ -17,7 +17,7 @@ export const Route = createFileRoute('/_app/game/syn-ant')({
 const baseURL = import.meta.env.VITE_BACKEND_URL;
 
 const generateGame = async () => {
-  const res = await fetch(`${baseURL}/game/generate/`, {
+  const res = await fetch(`${baseURL}/game/generate`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
