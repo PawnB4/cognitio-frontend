@@ -22,20 +22,16 @@ async function request<TResponse, TBody = unknown>(
   url: string,
   { method, body }: RequestOptions<TBody>
 ): Promise<TResponse> {
-  const endpoint = `${baseURL}${url}/`
-  console.log("ABSTRACTION ENDPOINT: ", endpoint)
-  console.log("ABSTRACTION BODY: ", body)
-  const response = await fetch(endpoint, {
+  const response = await fetch(`${baseURL}${url}`, {
     method,
     headers: {
       "Content-Type": "application/json",
     },
     body: body ? JSON.stringify(body) : undefined,
+    redirect: 'follow',
   });
 
-  console.log("Response from abstraction: ", response)
-
-  if (!response.ok) {
+  if (!response.ok && ![301, 302, 303, 307, 308].includes(response.status)) {
     throw new ApiError(
       await response.text(),
       response.status,
