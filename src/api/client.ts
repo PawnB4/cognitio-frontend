@@ -22,7 +22,7 @@ async function request<TResponse, TBody = unknown>(
   url: string,
   { method, body }: RequestOptions<TBody>
 ): Promise<TResponse> {
-  const endpoint = `${baseURL}${url}`
+  const endpoint = `${baseURL}${url}/`
   console.log("ABSTRACTION ENDPOINT: ", endpoint)
   console.log("ABSTRACTION BODY: ", body)
   const response = await fetch(endpoint, {
