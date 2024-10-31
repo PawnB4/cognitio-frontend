@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import { client } from "./client";
 import { Exercise, GameResponse, GenerateGameOptions } from "./types";
 

@@ -30,12 +30,15 @@ async function request<TResponse, TBody = unknown>(
     body: body ? JSON.stringify(body) : undefined,
   });
 
+  console.log("Response from abstraction: ", response)
+
   if (!response.ok) {
-    throw new ApiError(
-      await response.text(),
-      response.status,
-      response.statusText
-    );
+    // throw new ApiError(
+    //   await response.text(),
+    //   response.status,
+    //   response.statusText
+    // );
+    throw new Error("internal server error")
   }
 
   return response.json() as Promise<TResponse>;
