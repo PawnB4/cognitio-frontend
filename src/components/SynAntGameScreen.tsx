@@ -1,16 +1,12 @@
 
 import { useState, useMemo, useEffect } from "react";
 import { CircleCheck, CircleX } from "lucide-react";
+import { SynonymAntonymExercise } from "@/api/types";
 
 
-type Ejercicio = {
-  palabra: string;
-  sinonimos: string[];
-  antonimos: string[];
-};
 
 type SynAntGameScreenProps = {
-  ejercicios: Ejercicio[];
+  ejercicios: SynonymAntonymExercise[];
   incrementarCorrectas: () => void;
   incrementarIncorrectas: () => void;
   finalizarJuego: () => void;

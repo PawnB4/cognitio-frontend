@@ -5,6 +5,8 @@ import { useQuery, useQueryClient } from '@tanstack/react-query'
 import { useState } from 'react'
 import { SpinningIndicator } from '@/components/SpinningIndicator'
 import { ReadAndConcludeGameScreen } from '@/components/ReadAndConcludeGameScreen'
+import { Exercise, ReadAndConcludeExercise } from '@/api/types'
+import { ApiError } from '@/api/client'
 
 export const Route = createFileRoute('/_app/game/read-and-conclude')({
   component: ReadAndConcludeGame,
@@ -102,16 +104,11 @@ function ReadAndConcludeGame() {
     // await generateProgressRequest({ correct: cantidadCorrectas, incorrect: cantidadIncorrectas, level: difficultyLevel, type: "who_was_it" })
   }
 
-  const {
-    data: ejercicios,
-    isPending,
-    error,
-    refetch,
-  } = useQuery({
-    queryKey: ['read-and-conclude-game', difficultyLevel],
+  const { data: ejercicios = [], isPending, error, refetch } = useQuery<Exercise[], ApiError>({
+    queryKey: ["syn-ant-game", difficultyLevel],
     // queryFn: () => generateGameRequest({ difficulty: difficultyLevel, game_number: 2, number_excercises: 5 }),
     queryFn: () => fakeGameRequest(),
-    enabled: false,
+    enabled: false
   })
 
   if (error) {
@@ -205,7 +202,7 @@ function ReadAndConcludeGame() {
           {gameStatus === 'inProgress' ? (
             !isPending ? (
               <ReadAndConcludeGameScreen
-                ejercicios={ejercicios}
+                ejercicios={ejercicios as ReadAndConcludeExercise[]}
                 incrementarCorrectas={incrementarCorrectas}
                 incrementarIncorrectas={incrementarIncorrectas}
                 finalizarJuego={finalizarJuego}

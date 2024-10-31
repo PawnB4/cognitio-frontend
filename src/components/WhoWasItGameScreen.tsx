@@ -1,17 +1,11 @@
 
 import { useState, useEffect } from "react";
 import { CircleCheck, CircleX } from "lucide-react";
+import { WhoWasItExercise } from "@/api/types";
 
-
-type Ejercicio = {
-  texto: string;
-  pregunta: string;
-  opciones_correctas: string[];
-  opciones_incorrectas: string[];
-};
 
 type WhoWasItGameScreenProps = {
-  ejercicios: Ejercicio[];
+  ejercicios: WhoWasItExercise[];
   incrementarCorrectas: () => void;
   incrementarIncorrectas: () => void;
   finalizarJuego: () => void;

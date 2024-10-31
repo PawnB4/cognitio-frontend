@@ -5,8 +5,10 @@ import { useQuery, useQueryClient } from '@tanstack/react-query'
 import { useState } from 'react'
 import { SynAntGameScreen } from '@/components/SynAntGameScreen'
 import { SpinningIndicator } from '@/components/SpinningIndicator'
+import { generateProgressRequest } from '@/api/progress.api'
 import { generateGameRequest } from '@/api/game.api'
-import { generateProgressRequest } from '@/api/progress'
+import { Exercise, SynonymAntonymExercise } from '@/api/types'
+import { ApiError } from '@/api/client'
 
 export const Route = createFileRoute('/_app/game/syn-ant')({
   component: SynAntGame,
@@ -36,7 +38,7 @@ function SynAntGame() {
     await generateProgressRequest({ correct: cantidadCorrectas, incorrect: cantidadIncorrectas, level: difficultyLevel, type: "syn_ant" })
   }
 
-  const { data: ejercicios, isPending, error, refetch } = useQuery({
+  const { data: ejercicios = [], isPending, error, refetch } = useQuery<Exercise[], ApiError>({
     queryKey: ["syn-ant-game", difficultyLevel],
     queryFn: () => generateGameRequest({ difficulty: difficultyLevel, game_number: 1, number_excercises: 5 }),
     enabled: false
@@ -114,7 +116,7 @@ function SynAntGame() {
             gameStatus === "inProgress" ? (
               !isPending ? (
                 <SynAntGameScreen
-                  ejercicios={ejercicios}
+                  ejercicios={ejercicios as SynonymAntonymExercise[]}
                   incrementarCorrectas={incrementarCorrectas}
                   incrementarIncorrectas={incrementarIncorrectas}
                   finalizarJuego={finalizarJuego}

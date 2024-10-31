@@ -1,17 +1,12 @@
 
 import { useState, useEffect } from "react";
 import { CircleCheck, CircleX } from "lucide-react";
+import { ReadAndConcludeExercise } from "@/api/types";
 
 
-type Ejercicio = {
-  texto: string;
-  pregunta: string;
-  opciones_correctas: string[];
-  opciones_incorrectas: string[];
-};
 
 type ReadAndConcludeGameScreenProps = {
-  ejercicios: Ejercicio[];
+  ejercicios: ReadAndConcludeExercise[];
   incrementarCorrectas: () => void;
   incrementarIncorrectas: () => void;
   finalizarJuego: () => void;

@@ -1,15 +1,27 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 const baseURL = import.meta.env.VITE_BACKEND_URL;
 
-type RequestOptions = {
-  method: "GET" | "POST" | "PUT" | "DELETE";
-  body?: Record<string, any>;
-};
+type HttpMethod = "GET" | "POST" | "PUT" | "DELETE";
 
-type FetchResponse<T> = T;
+interface RequestOptions<TBody = unknown> {
+  method: HttpMethod;
+  body?: TBody;
+}
 
-// Generic function to handle all request types
-async function request<T>(url: string, { method, body }: RequestOptions): Promise<FetchResponse<T>> {
+export class ApiError extends Error {
+  constructor(
+    message: string,
+    public status: number,
+    public statusText: string
+  ) {
+    super(message);
+    this.name = 'ApiError';
+  }
+}
+
+async function request<TResponse, TBody = unknown>(
+  url: string,
+  { method, body }: RequestOptions<TBody>
+): Promise<TResponse> {
   const response = await fetch(`${baseURL}${url}`, {
     method,
     headers: {
@@ -19,18 +31,26 @@ async function request<T>(url: string, { method, body }: RequestOptions): Promis
   });
 
   if (!response.ok) {
-    const errorMessage = await response.text();
-    throw new Error(errorMessage || "An error occurred");
+    throw new ApiError(
+      await response.text(),
+      response.status,
+      response.statusText
+    );
   }
 
-  return response.json() as Promise<FetchResponse<T>>;
+  return response.json() as Promise<TResponse>;
 }
 
-// Creating specific request methods for easier usage
 export const client = {
-  get: <T>(url: string) => request<T>(url, { method: "GET" }),
-  post: <T>(url: string, body: Record<string, any>) => request<T>(url, { method: "POST", body }),
-  put: <T>(url: string, body: Record<string, any>) => request<T>(url, { method: "PUT", body }),
-  delete: <T>(url: string) => request<T>(url, { method: "DELETE" }),
-};
+  get: <TResponse>(url: string) =>
+    request<TResponse>(url, { method: "GET" }),
 
+  post: <TResponse, TBody>(url: string, body: TBody) =>
+    request<TResponse, TBody>(url, { method: "POST", body }),
+
+  put: <TResponse, TBody>(url: string, body: TBody) =>
+    request<TResponse, TBody>(url, { method: "PUT", body }),
+
+  delete: <TResponse>(url: string) =>
+    request<TResponse>(url, { method: "DELETE" }),
+};

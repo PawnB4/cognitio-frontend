@@ -5,6 +5,8 @@ import { useQuery, useQueryClient } from '@tanstack/react-query'
 import { useState } from 'react'
 import { WhoWasItGameScreen } from '@/components/WhoWasItGameScreen'
 import { SpinningIndicator } from '@/components/SpinningIndicator'
+import { Exercise, WhoWasItExercise } from '@/api/types'
+import { ApiError } from '@/api/client'
 
 export const Route = createFileRoute('/_app/game/who-was-it')({
   component: WhoWasItGame,
@@ -69,9 +71,9 @@ function WhoWasItGame() {
     // await generateProgressRequest({ correct: cantidadCorrectas, incorrect: cantidadIncorrectas, level: difficultyLevel, type: "who_was_it" })
   }
 
-  const { data: ejercicios, isPending, error, refetch } = useQuery({
-    queryKey: ["who-was-it-game", difficultyLevel],
-    // queryFn: () => generateGameRequest({ difficulty: difficultyLevel, game_number: 2, number_excercises: 5 }),
+  const { data: ejercicios = [], isPending, error, refetch } = useQuery<Exercise[], ApiError>({
+    queryKey: ["syn-ant-game", difficultyLevel],
+    // queryFn: () => generateGameRequest({ difficulty: difficultyLevel, game_number: 1, number_excercises: 5 }),
     queryFn: () => fakeGameRequest(),
     enabled: false
   })
@@ -147,7 +149,7 @@ function WhoWasItGame() {
             gameStatus === "inProgress" ? (
               !isPending ? (
                 <WhoWasItGameScreen
-                  ejercicios={ejercicios}
+                  ejercicios={ejercicios as WhoWasItExercise[]}
                   incrementarCorrectas={incrementarCorrectas}
                   incrementarIncorrectas={incrementarIncorrectas}
                   finalizarJuego={finalizarJuego}
