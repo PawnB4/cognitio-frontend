@@ -31,8 +31,8 @@ export function GameCard({ title, description, imgUrl, game }: GameCardProps) {
         />
       </CardHeader>
       <CardContent className="flex flex-col gap-3">
-        <CardTitle className="text-balance">{title}</CardTitle>
-        <CardDescription className="text-balance font-bold">{description}</CardDescription>
+        <CardTitle className="text-balance text-center md:text-left">{title}</CardTitle>
+        <CardDescription className="text-balance font-bold text-white text-center md:text-left">{description}</CardDescription>
       </CardContent>
       <CardFooter className="mt-auto">
         <Button asChild className="w-full">
