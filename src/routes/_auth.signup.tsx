@@ -83,7 +83,7 @@ function SignUp() {
                           onBlur={field.handleBlur}
                           onChange={(e) => field.handleChange(e.target.value)
                           }
-                          className={`w-full h-12 text-lg px-9 rounded-md border ${
+                          className={`w-full h-12 text-sm px-9 rounded-md border ${
                             field.state.meta.isTouched && field.state.meta.errors.length
                               ? 'border-red-500'
                               : 'border-gray-300'
