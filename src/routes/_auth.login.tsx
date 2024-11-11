@@ -21,7 +21,7 @@ function LogIn() {
     },
     onSubmit: async ({ value }) => {
       console.log(value);
-      navigate({ to: "/profile" });
+      navigate({ to: "/dashboard" });
     },
   });
 
