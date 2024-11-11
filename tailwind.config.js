@@ -8,7 +8,7 @@ export default {
   theme: {
 	fontFamily:{
 		"title":["Montserrat", "sans-serif"],
-		"body":['"Zen Kaku Gothic Antique"',"sans-serif"]
+		"body":['"Montserrat"',"sans-serif"]
 	},
   	extend: {
   		borderRadius: {
