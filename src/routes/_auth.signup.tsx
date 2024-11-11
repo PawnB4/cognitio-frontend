@@ -40,7 +40,7 @@ function SignUp() {
 
   return (
     <div>
-      <div className='flex w-full gap-2'>
+      <div className='flex w-full gap-2 p-0 m-0'>
         <div className='flex flex-col gap-2 p-2 items-center bg-slate-200 rounded-md sign-up-container'>
           <div></div>
           <p className='text-2xl text-balance'>Elige tu personaje</p>
@@ -75,7 +75,7 @@ function SignUp() {
                   children={(field) => {
                     return (
                       <>
-                      <Label className="p-0 m-0" htmlFor={field.name}>USUARIO: </Label>
+                      <Label className="p-0 m-0" htmlFor={field.name}>Usuario: </Label>
                         <Input
                           id={field.name}
                           name={field.name}
@@ -100,7 +100,7 @@ function SignUp() {
                     )
                   }}
                 />
-                  <Label className="p-0 m-0" htmlFor={field.name}>EMAIL: </Label>
+                  <Label className="p-0 m-0" htmlFor={field.name}>Email: </Label>
                   <Input
                     id={field.name}
                     name={field.name}
@@ -132,7 +132,7 @@ function SignUp() {
             children={(field) => {
               return (
                 <>
-                  <Label htmlFor={field.name}>CONTRASEÑA: </Label>
+                  <Label htmlFor={field.name}>Contraseña: </Label>
                   <Input
                     type='password'
                     id={field.name}
