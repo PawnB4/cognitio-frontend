@@ -75,6 +75,7 @@ function SignUp() {
                   children={(field) => {
                     return (
                       <>
+                      <Label className="p-0 m-0" htmlFor={field.name}>USUARIO: </Label>
                         <Input
                           id={field.name}
                           name={field.name}

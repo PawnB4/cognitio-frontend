@@ -49,7 +49,7 @@ function LogIn() {
             }}
             children={(field) => (
               <>
-                <Label htmlFor={field.name}>Email: </Label>
+                <Label htmlFor={field.name}>EMAIL: </Label>
                 <Input
                   id={field.name}
                   name={field.name}
@@ -84,7 +84,7 @@ function LogIn() {
             }}
             children={(field) => (
               <>
-                <Label htmlFor={field.name}>Contraseña: </Label>
+                <Label htmlFor={field.name}>CONTRASEÑA: </Label>
                 <Input
                   type="password"
                   id={field.name}
