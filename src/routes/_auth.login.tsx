@@ -5,13 +5,29 @@ import { Label } from '@/components/ui/label';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { z } from 'zod';
+import { loginUserRequest } from '@/api/user.api';
+import { useMutation } from '@tanstack/react-query';
+import { LoginUserOptions } from '@/api/types';
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+//@ts-ignore
+import Cookies from 'js-cookie'
 
 export const Route = createFileRoute('/_auth/login')({
   component: LogIn,
 });
 
+
+
 function LogIn() {
-  const navigate = useNavigate({ from: "/dashboard" });
+
+  const navigate = useNavigate()
+
+  const mutation = useMutation({
+    mutationFn: async (value: LoginUserOptions) => {
+      const res = await loginUserRequest(value)
+      return res
+    },
+  })
 
   const form = useForm({
     validatorAdapter: zodValidator(),
@@ -20,15 +36,23 @@ function LogIn() {
       email: '',
     },
     onSubmit: async ({ value }) => {
-      console.log(value);
-      navigate({ to: "/dashboard" });
+      try {
+        const { access_token } = await mutation.mutateAsync(value)
+        form.reset();
+        Cookies.set('access_token', access_token)
+        navigate({ to: "/dashboard" });
+      } catch (error) {
+        console.log(error)
+        alert("Invalid username or password")
+      }
+  
     },
   });
 
   return (
     <div>
       <div className="flex w-full gap-12">
-        
+
         <form
           className="flex flex-col gap-5"
           onSubmit={(e) => {
@@ -56,15 +80,14 @@ function LogIn() {
                   value={field.state.value}
                   onBlur={field.handleBlur}
                   onChange={(e) => field.handleChange(e.target.value)}
-                  className={`border ${
-                    field.state.meta.isTouched && field.state.meta.errors.length
-                      ? 'border-red-500'
-                      : 'border-gray-300'
-                  }`}
+                  className={`border ${field.state.meta.isTouched && field.state.meta.errors.length
+                    ? 'border-red-500'
+                    : 'border-gray-300'
+                    }`}
                 />
 
                 {field.state.meta.isTouched && field.state.meta.errors.length ? (
-                  <span className="text-sm text-red-500 block">
+                  <span className="text-sm text-red-500 block ">
                     {field.state.meta.errors.join(", ")}
                   </span>
                 ) : null}
@@ -92,15 +115,14 @@ function LogIn() {
                   value={field.state.value}
                   onBlur={field.handleBlur}
                   onChange={(e) => field.handleChange(e.target.value)}
-                  className={`border ${
-                    field.state.meta.isTouched && field.state.meta.errors.length
-                      ? 'border-red-500'
-                      : 'border-gray-300'
-                  }`}
+                  className={`border ${field.state.meta.isTouched && field.state.meta.errors.length
+                    ? 'border-red-500'
+                    : 'border-gray-300'
+                    }`}
                 />
 
                 {field.state.meta.isTouched && field.state.meta.errors.length ? (
-                  <span className="text-sm text-red-500 block">
+                  <span className="text-sm text-red-500 block ">
                     {field.state.meta.errors.join(", ")}
                   </span>
                 ) : null}
@@ -120,12 +142,15 @@ function LogIn() {
         </form>
       </div>
 
-      <span className="text-white">
-        No tenes cuenta?
-        <Button asChild size="lg" variant="link" className="font-bold text-1xl mb-2">
+      <div className='div flex justify-center items-center mt-4 '>
+        <p className="text-white">
+          No tenes cuenta?
+        </p>
+
+        <Button asChild size="lg" variant="link" className="font-bold text-1xl">
           <Link to="/signup">Registrate</Link>
         </Button>
-      </span>
+      </div>
     </div>
   );
 }

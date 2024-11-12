@@ -13,6 +13,9 @@ interface Character {
 }
 
 function Profile() {
+
+  const {user} = Route.useRouteContext();
+
   const handleChangeCharacter = (character: Character) => {
     // Implement character change logic here
     console.log("Character changed:", character);
@@ -44,9 +47,9 @@ function Profile() {
         <div>
           {/* Profile Card */}
           <ProfileCard
-            name="Juan Perez"
+            name={user.username}
             date="Septiembre 24 2001"
-            avatarUrl="/path-to-your-bear-avatar.png"
+            avatarUrl={user.image_url}
             onChangeCharacter={handleChangeCharacter}
           />
         </div>

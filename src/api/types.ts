@@ -1,5 +1,4 @@
-// Generate game
-
+// Games
 export interface GenerateGameOptions {
     difficulty: number;
     game_number: number;
@@ -33,11 +32,11 @@ export type Exercise =
     | ReadAndConcludeExercise
     | WhoWasItExercise;
 
-export interface GameResponse {
+export interface GenerateGameResponse {
     ejercicios: Exercise[];
 }
 
-// Generate progress
+// Progress
 
 export interface GenerateProgressOptions {
     level: number;
@@ -46,7 +45,7 @@ export interface GenerateProgressOptions {
     incorrect: number;
 }
 
-export interface ProgressResponse {
+export interface GenerateProgressResponse {
     level: number;
     type: string;
     id: number;
@@ -55,4 +54,33 @@ export interface ProgressResponse {
     incorrect: number;
 }
 
+
+// User / auth
+
+export interface SignupUserOptions {
+    username: string;
+    email: string;
+    image_url: string;
+    password: string;
+}
+
+export interface SignupUserResponse {
+    id: number;
+    username: string;
+    email: string;
+    image_url: string;
+    is_active: boolean;
+}
+
+
+export interface LoginUserOptions {
+    email: string;
+    password: string;
+}
+
+export interface LoginResponse {
+    access_token: string;
+    refresh_token: string;
+    token_type: string;
+}
 

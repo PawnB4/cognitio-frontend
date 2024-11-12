@@ -14,15 +14,24 @@ import {
     DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
-import { Link } from "@tanstack/react-router"
+import { Link, useNavigate } from "@tanstack/react-router"
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+//@ts-ignore
+import Cookies from 'js-cookie'
+import { useQueryClient } from "@tanstack/react-query"
 
-const logout = async () =>{
-    // TODO log out the user
-
-}
 
 
 export function NavbarAvatar() {
+    const queryClient = useQueryClient()
+    const navigate = useNavigate()
+    const logout = async () => {
+        await Cookies.remove("access_token")
+        await queryClient.invalidateQueries({
+            queryKey: ['get-current-user'],
+        })
+        navigate({ to: "/login" })
+    }
 
     return (
         <DropdownMenu >

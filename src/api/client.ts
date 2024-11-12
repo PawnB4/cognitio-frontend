@@ -1,10 +1,15 @@
 const baseURL = import.meta.env.VITE_BACKEND_URL;
+interface RequestHeader {
+  key: string;
+  value: string;
+}
 
 type HttpMethod = "GET" | "POST" | "PUT" | "DELETE";
 
 interface RequestOptions<TBody = unknown> {
   method: HttpMethod;
   body?: TBody;
+  headers?: RequestHeader[];
 }
 
 export class ApiError extends Error {
@@ -20,15 +25,23 @@ export class ApiError extends Error {
 
 async function request<TResponse, TBody = unknown>(
   url: string,
-  { method, body }: RequestOptions<TBody>
+  { method, body, headers = [] }: RequestOptions<TBody>
 ): Promise<TResponse> {
   const normalizedUrl = url.endsWith('/') ? url : `${url}/`;
-  
+
+  // Combine default headers with custom headers
+  const requestHeaders = new Headers({
+    "Content-Type": "application/json",
+  });
+
+  // Add custom headers
+  headers.forEach(header => {
+    requestHeaders.set(header.key, header.value);
+  });
+
   const response = await fetch(`${baseURL}${normalizedUrl}`, {
     method,
-    headers: {
-      "Content-Type": "application/json",
-    },
+    headers: requestHeaders,
     body: body ? JSON.stringify(body) : undefined,
   });
 
@@ -44,15 +57,12 @@ async function request<TResponse, TBody = unknown>(
 }
 
 export const client = {
-  get: <TResponse>(url: string) =>
-    request<TResponse>(url, { method: "GET" }),
-
-  post: <TResponse, TBody>(url: string, body: TBody) =>
-    request<TResponse, TBody>(url, { method: "POST", body }),
-
-  put: <TResponse, TBody>(url: string, body: TBody) =>
-    request<TResponse, TBody>(url, { method: "PUT", body }),
-
-  delete: <TResponse>(url: string) =>
-    request<TResponse>(url, { method: "DELETE" }),
+  get: <TResponse>(url: string, headers?: RequestHeader[]) =>
+    request<TResponse>(url, { method: "GET", headers }),
+  post: <TResponse, TBody>(url: string, body: TBody, headers?: RequestHeader[]) =>
+    request<TResponse, TBody>(url, { method: "POST", body, headers }),
+  put: <TResponse, TBody>(url: string, body: TBody, headers?: RequestHeader[]) =>
+    request<TResponse, TBody>(url, { method: "PUT", body, headers }),
+  delete: <TResponse>(url: string, headers?: RequestHeader[]) =>
+    request<TResponse>(url, { method: "DELETE", headers }),
 };

@@ -9,11 +9,12 @@ export const Route = createFileRoute('/_app/dashboard')({
 
 
 function Dashboard() {
+  const {user} = Route.useRouteContext();
 
   return (
     <>
       <aside className="hidden md:block md:col-span-4 lg:col-span-2 bg-[#395274] pt-16">
-        <ProfileAside />
+        <ProfileAside user={user}/>
       </aside>
       <div className="col-span-full md:col-start-5 md:col-end-13 lg:col-start-3 main-bg flex flex-col lg:flex-row justify-center items-center gap-8 p-4 md:px-16"
       >

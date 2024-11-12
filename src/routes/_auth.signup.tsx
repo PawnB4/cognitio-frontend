@@ -6,7 +6,6 @@ import { Label } from '@/components/ui/label'
 import { Input } from '@/components/ui/input'
 import { Button } from '@/components/ui/button'
 import { z } from 'zod'
-import './styles.css';
 
 export const Route = createFileRoute('/_auth/signup')({
   component: SignUp,

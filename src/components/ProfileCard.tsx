@@ -84,7 +84,7 @@ export function ProfileCard({
   };
 
   return (
-    <div className="bg-white rounded-3xl w-full md:w-[500px] md:h-[600px] lg:w-[800px] flex flex-col md:flex-row lg:flex-col items-center justify-center overflow-hidden shadow-lg">
+    <div className="bg-white rounded-3xl w-full md:w-[500px] md:h-[600px] lg:w-[800px] flex flex-col md:flex-row lg:flex-col items-center justify-center overflow-hidden shadow-lg mt-20">
       <div className="bg-yellow-400 p-4 w-full align-top">
         <div className="flex align-middle">
           <h2 className="text-white text-2xl font-medium w-full">{name}</h2>

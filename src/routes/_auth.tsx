@@ -1,11 +1,16 @@
 import { Separator } from '@/components/ui/separator'
-import { createFileRoute, Outlet } from '@tanstack/react-router'
-import './styles.css'
+import { createFileRoute, Outlet, useNavigate } from '@tanstack/react-router'
+
 export const Route = createFileRoute('/_auth')({
   component: AuthLayout,
 })
 
 function AuthLayout() {
+  const {user} = Route.useRouteContext();
+  const navigate = useNavigate()
+  if (user) {
+    navigate({ to: "/dashboard" })
+  }
   return (
     <main className="flex justify-center gap-40 min-h-screen px-6 py-12 md:p-0 main-bg">
       <div className="flex flex-col gap-4 md:gap-6 md:mt-14 md:w-1/2 items-center">
@@ -19,7 +24,7 @@ function AuthLayout() {
             Cognitio
           </h1>
         </div>
-        <Separator className="line"  />
+        <Separator className="w-[60%] h-[1.8px]" />
         <div></div>
         <Outlet />
       </div>
