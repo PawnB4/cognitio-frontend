@@ -6,11 +6,34 @@ import { Label } from '@/components/ui/label'
 import { Input } from '@/components/ui/input'
 import { Button } from '@/components/ui/button'
 import { z } from 'zod'
+import { useMutation } from '@tanstack/react-query';
+import { SignupUserOptions, SignupUserResponse } from '@/api/types';
+
+const baseURL = import.meta.env.VITE_BACKEND_URL;
 
 export const Route = createFileRoute('/_auth/signup')({
   component: SignUp,
 })
 
+const signupUser = async ({username,email,image_url,password}:SignupUserOptions):Promise<SignupUserResponse> => {
+  const res = await fetch(`${baseURL}/user/register`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      username,
+      email,
+      image_url,
+      password
+    }),
+  });
+  if(!res.ok){
+    throw new Error
+  }
+  const data = await res.json();
+  return data;
+};
 
 function SignUp() {
 
@@ -20,20 +43,29 @@ function SignUp() {
     validatorAdapter: zodValidator(),
     defaultValues: {
       username: '',
-      password: '',
       email: '',
+      image_url: '',
+      password: ''
     },
 
     onSubmit: async ({ value }) => {
-      // TODO sign up the user
-      // if (!res.ok) {
-      //   throw new Error("server error")
-      // }
-      // form.reset();
-      // const data = await res.json()
-      // console.log("Data from server: ", data)
-      console.log(value)
-      navigate({ to: "/profile" })
+      try {
+        const data = await signupUser({
+          username: value.username,
+          email: value.email,
+          image_url: value.image_url,
+          password: value.password
+        });
+        
+        form.reset();
+  
+        console.log("Data from server: ", data);
+  
+        navigate({ to: "/login" });
+      } catch (error) {
+        console.log(error);
+        alert("Completa todos los campos y el formato que solicita")
+      }
     },
   })
 
@@ -82,7 +114,7 @@ function SignUp() {
                           onBlur={field.handleBlur}
                           onChange={(e) => field.handleChange(e.target.value)
                           }
-                          className={`w-full h-12 text-sm px-9 rounded-md border ${
+                          className={`"pl-12 rounded-md border border-gray-300 ${
                             field.state.meta.isTouched && field.state.meta.errors.length
                               ? 'border-red-500'
                               : 'border-gray-300'
