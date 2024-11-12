@@ -32,6 +32,9 @@ const generateGame = async (gameNumber: number, difficultyLevel: number, exercis
       number_excercises: exercisesAmount,
     }),
   });
+  if(!res.ok){
+    throw new Error
+  }
   const data = await res.json();
   return data.ejercicios;
 };

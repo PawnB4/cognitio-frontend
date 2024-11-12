@@ -29,6 +29,9 @@ const loginUser = async ({email,password}:LoginUserOptions):Promise<LoginRespons
       password
     }),
   });
+  if(!res.ok){
+    throw new Error
+  }
   const data = await res.json();
   return data;
 };

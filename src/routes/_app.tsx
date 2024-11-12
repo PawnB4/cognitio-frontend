@@ -19,10 +19,10 @@ const getUser = async ():Promise<SignupUserResponse> => {
       "bearer-token": `${accessToken}`
     },
   });
-  const data = await res.json();
   if(!res.ok){
     throw new Error
   }
+  const data = await res.json();
   return data;
 };
 
