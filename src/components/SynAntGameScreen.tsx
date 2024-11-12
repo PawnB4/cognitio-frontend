@@ -154,9 +154,11 @@ export function SynAntGameScreen({ ejercicios, incrementarCorrectas, incrementar
             )
           })
           :
-          opcionesCorrectas.map((opcion) => {
+          opcionesCorrectas.map((opcion,index) => {
             return (
-              <p className="w-full font-bold text-center py-4 px-2 md:p-4 text-white text-2xl md:text-3xl rounded-2xl bg-green-400">
+              <p
+              key={index}
+              className="w-full font-bold text-center py-4 px-2 md:p-4 text-white text-2xl md:text-3xl rounded-2xl bg-green-400">
                 {opcion.toUpperCase()}
               </p>
             )

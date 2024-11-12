@@ -1,20 +1,40 @@
 import { NavbarAvatar } from '@/components/NavbarAvatar'
 import { Button } from '@/components/ui/button'
 import { createFileRoute, Link, Outlet, redirect, useNavigate } from '@tanstack/react-router'
-import { getUserRequest } from '@/api/user.api'
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 //@ts-ignore
 import Cookies from 'js-cookie'
 import { useQueryClient } from '@tanstack/react-query'
+import { SignupUserResponse } from '@/api/types'
+
+const baseURL = import.meta.env.VITE_BACKEND_URL;
+
+
+const getUser = async ():Promise<SignupUserResponse> => {
+  const accessToken = await Cookies.get("access_token")
+  const res = await fetch(`${baseURL}/user/token/me`, {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+      "bearer-token": `${accessToken}`
+    },
+  });
+  const data = await res.json();
+  if(!res.ok){
+    throw new Error
+  }
+  return data;
+};
 
 export const Route = createFileRoute('/_app')({
   beforeLoad: async ({ context }) => {
     const queryClient = context.queryClient
     try {
-      const user = await queryClient.fetchQuery({ queryKey: ["get-current-user"], queryFn: () => getUserRequest(), staleTime: Infinity })
+      const user = await queryClient.fetchQuery({ queryKey: ["get-current-user"], queryFn: () => getUser(), staleTime: Infinity })
+      console.log("user middleware: ", user)
       return { user }
     } catch (e) {
-      console.log("Error: ", e)
+      console.log("Error: ",e)
       throw redirect({ to: "/login", replace: true })
     }
   },

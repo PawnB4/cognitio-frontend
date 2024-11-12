@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { createFileRoute, Link } from '@tanstack/react-router'
 import { Button } from '@/components/ui/button'
 import { CircleArrowLeft } from 'lucide-react'
@@ -5,16 +6,53 @@ import { useQuery, useQueryClient } from '@tanstack/react-query'
 import { useState } from 'react'
 import { SynAntGameScreen } from '@/components/SynAntGameScreen'
 import { SpinningIndicator } from '@/components/SpinningIndicator'
-import { generateProgressRequest } from '@/api/progress.api'
-import { generateGameRequest } from '@/api/game.api'
-import { Exercise, SynonymAntonymExercise } from '@/api/types'
-import { ApiError } from '@/api/client'
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+//@ts-ignore
+import Cookies from 'js-cookie'
+import { SynonymAntonymExercise } from '@/api/types'
+
+type GameStatus = "unstarted" | "inProgress" | "finished"
+
+const baseURL = import.meta.env.VITE_BACKEND_URL;
+
 
 export const Route = createFileRoute('/_app/game/syn-ant')({
   component: SynAntGame,
 })
 
-type GameStatus = "unstarted" | "inProgress" | "finished"
+const generateGame = async (gameNumber: number, difficultyLevel: number, exercisesAmount: number) => {
+  const res = await fetch(`${baseURL}/game/generate`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      game_number: gameNumber,
+      difficulty: difficultyLevel,
+      number_excercises: exercisesAmount,
+    }),
+  });
+  const data = await res.json();
+  return data.ejercicios;
+};
+
+// const generateProgress = async (cantidadCorrectas: number, cantidadIncorrectas: number, difficultyLevel:number ) => {
+//   const accessToken = await Cookies.get("access_token")
+//   await fetch(`${baseURL}/progress`, {
+//     method: "POST",
+//     headers: {
+//       "Content-Type": "application/json",
+//       "bearer-token": `${accessToken}`
+//     },
+//     body: JSON.stringify({
+//       level: difficultyLevel,
+//       type: "syn_ant",
+//       correct: cantidadCorrectas,
+//       incorrect: cantidadIncorrectas
+//     }),
+//   });
+// }
+
 
 const dificultades = ["facil", "medio", "dificil"]
 
@@ -32,12 +70,12 @@ function SynAntGame() {
   const finalizarJuego = async () => {
     setGameStatus("finished")
     queryClient.invalidateQueries({ queryKey: ["syn-ant-game", difficultyLevel] })
-    await generateProgressRequest({ correct: cantidadCorrectas, incorrect: cantidadIncorrectas, level: difficultyLevel, type: "syn_ant" })
+    // await generateProgress(cantidadCorrectas, cantidadIncorrectas, difficultyLevel)
   }
 
-  const { data: ejercicios = [], isPending, error, refetch } = useQuery<Exercise[], ApiError>({
+  const { data: ejercicios = [], isPending, error, refetch } = useQuery<SynonymAntonymExercise[]>({
     queryKey: ["syn-ant-game", difficultyLevel],
-    queryFn: () => generateGameRequest({ difficulty: difficultyLevel, game_number: 1, number_excercises: 5 }),
+    queryFn: () => generateGame(1, difficultyLevel, 5),
     enabled: false
   })
 
@@ -113,7 +151,7 @@ function SynAntGame() {
             gameStatus === "inProgress" ? (
               !isPending ? (
                 <SynAntGameScreen
-                  ejercicios={ejercicios as SynonymAntonymExercise[]}
+                  ejercicios={ejercicios}
                   incrementarCorrectas={incrementarCorrectas}
                   incrementarIncorrectas={incrementarIncorrectas}
                   finalizarJuego={finalizarJuego}

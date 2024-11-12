@@ -5,30 +5,44 @@ import { Label } from '@/components/ui/label';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { z } from 'zod';
-import { loginUserRequest } from '@/api/user.api';
 import { useMutation } from '@tanstack/react-query';
-import { LoginUserOptions } from '@/api/types';
+import { LoginResponse, LoginUserOptions } from '@/api/types';
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 //@ts-ignore
 import Cookies from 'js-cookie'
+
+const baseURL = import.meta.env.VITE_BACKEND_URL;
+
 
 export const Route = createFileRoute('/_auth/login')({
   component: LogIn,
 });
 
-
+const loginUser = async ({email,password}:LoginUserOptions):Promise<LoginResponse> => {
+  const res = await fetch(`${baseURL}/user/login`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      email,
+      password
+    }),
+  });
+  const data = await res.json();
+  return data;
+};
 
 function LogIn() {
-
   const navigate = useNavigate()
 
   const mutation = useMutation({
     mutationFn: async (value: LoginUserOptions) => {
-      const res = await loginUserRequest(value)
+      const res = await loginUser(value)
       return res
     },
   })
-
+  
   const form = useForm({
     validatorAdapter: zodValidator(),
     defaultValues: {
