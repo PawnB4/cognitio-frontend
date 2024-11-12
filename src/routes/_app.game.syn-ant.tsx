@@ -21,7 +21,7 @@ export const Route = createFileRoute('/_app/game/syn-ant')({
 })
 
 const generateGame = async (gameNumber: number, difficultyLevel: number, exercisesAmount: number) => {
-  const res = await fetch(`${baseURL}/game/generate`, {
+  const res = await fetch(`${baseURL}/game/generate/`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
