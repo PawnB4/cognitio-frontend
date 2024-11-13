@@ -92,9 +92,9 @@ export function CharacterSelection({
         </div>
 
         <div className="grid grid-cols-3 md:grid-cols-4 gap-4 p-4 bg-gray-100">
-          {characters.map((character) => (
+          {characters.map((character,index) => (
             <div
-              key={character.alt}
+              key={index}
               className="relative cursor-pointer group"
               onClick={() => handleSelect(character)}
             >

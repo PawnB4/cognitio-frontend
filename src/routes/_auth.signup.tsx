@@ -1,7 +1,6 @@
 import { useForm } from "@tanstack/react-form";
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { zodValidator } from "@tanstack/zod-form-adapter";
-import { CircleUser, Pencil } from "lucide-react";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
@@ -42,7 +41,7 @@ const signupUser = async ({
 };
 
 function SignUp() {
-  const navigate = useNavigate({ from: "/dashboard" });
+  const navigate = useNavigate();
   const [selectedCharacter, setSelectedCharacter] = useState("");
 
   const form = useForm({
@@ -68,7 +67,7 @@ function SignUp() {
 
         console.log("Data from server: ", data);
 
-        navigate({ to: "/login" });
+        navigate({ to: "/login", replace: true });
       } catch (error) {
         console.log(error);
         alert("Completa todos los campos y el formato que solicita");
@@ -127,16 +126,15 @@ function SignUp() {
                             value={field.state.value}
                             onBlur={field.handleBlur}
                             onChange={(e) => field.handleChange(e.target.value)}
-                            className={`"pl-12 rounded-md border border-gray-300 ${
-                              field.state.meta.isTouched &&
-                              field.state.meta.errors.length
+                            className={`"pl-12 rounded-md border border-gray-300 ${field.state.meta.isTouched &&
+                                field.state.meta.errors.length
                                 ? "border-red-500"
                                 : "border-gray-300"
-                            }`}
+                              }`}
                           />
 
                           {field.state.meta.isTouched &&
-                          field.state.meta.errors.length ? (
+                            field.state.meta.errors.length ? (
                             <span className="text-sm text-red-500 block p-0 m-0">
                               {field.state.meta.errors.join(", ")}
                             </span>
@@ -157,16 +155,15 @@ function SignUp() {
                     value={field.state.value}
                     onBlur={field.handleBlur}
                     onChange={(e) => field.handleChange(e.target.value)}
-                    className={`border ${
-                      field.state.meta.isTouched &&
-                      field.state.meta.errors.length
+                    className={`border ${field.state.meta.isTouched &&
+                        field.state.meta.errors.length
                         ? "border-red-500"
                         : "border-gray-300"
-                    }`}
+                      }`}
                   />
 
                   {field.state.meta.isTouched &&
-                  field.state.meta.errors.length ? (
+                    field.state.meta.errors.length ? (
                     <span className="text-sm text-red-500 block p-0 m-0">
                       {field.state.meta.errors.join(", ")}
                     </span>
@@ -195,16 +192,15 @@ function SignUp() {
                     value={field.state.value}
                     onBlur={field.handleBlur}
                     onChange={(e) => field.handleChange(e.target.value)}
-                    className={`border ${
-                      field.state.meta.isTouched &&
-                      field.state.meta.errors.length
+                    className={`border ${field.state.meta.isTouched &&
+                        field.state.meta.errors.length
                         ? "border-red-500"
                         : "border-gray-300"
-                    }`}
+                      }`}
                   />
 
                   {field.state.meta.isTouched &&
-                  field.state.meta.errors.length ? (
+                    field.state.meta.errors.length ? (
                     <span className="text-sm text-red-500 block p-0 m-0">
                       {field.state.meta.errors.join(", ")}
                     </span>
