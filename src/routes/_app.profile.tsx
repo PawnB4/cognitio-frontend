@@ -13,8 +13,7 @@ interface Character {
 }
 
 function Profile() {
-
-  const {user} = Route.useRouteContext();
+  const { user } = Route.useRouteContext();
 
   const handleChangeCharacter = (character: Character) => {
     // Implement character change logic here

@@ -1,5 +1,11 @@
 import { Avatar, AvatarImage, AvatarFallback } from "@radix-ui/react-avatar";
-import { Check, X } from "lucide-react";
+import { X } from "lucide-react";
+import { useState } from "react";
+import { Button } from "./ui/button";
+import { Check } from "lucide-react";
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+//@ts-ignore
+import Cookies from "js-cookie";
 
 interface Character {
   id: number;
@@ -7,72 +13,70 @@ interface Character {
   alt: string;
 }
 
-// Character options array
-const characters: Character[] = [
-  {
-    id: 1,
-    image:
-      "https://res.cloudinary.com/ddx4fkbj5/image/upload/v1728430959/seminario/wsvutrll42wgmpxaklzc.png",
-    alt: "Girl with glasses",
-  },
-  {
-    id: 2,
-    image:
-      "https://res.cloudinary.com/ddx4fkbj5/image/upload/v1728430959/seminario/wsvutrll42wgmpxaklzc.png",
-    alt: "Bear in suit",
-  },
-  {
-    id: 3,
-    image:
-      "https://res.cloudinary.com/ddx4fkbj5/image/upload/v1728430959/seminario/wsvutrll42wgmpxaklzc.png",
-    alt: "Girl with glasses",
-  },
-  {
-    id: 4,
-    image:
-      "https://res.cloudinary.com/ddx4fkbj5/image/upload/v1728430959/seminario/wsvutrll42wgmpxaklzc.png",
-    alt: "Bear in suit",
-  },
-  {
-    id: 5,
-    image:
-      "https://res.cloudinary.com/ddx4fkbj5/image/upload/v1728430959/seminario/wsvutrll42wgmpxaklzc.png",
-    alt: "Girl with glasses",
-  },
-  {
-    id: 6,
-    image:
-      "https://res.cloudinary.com/ddx4fkbj5/image/upload/v1728430959/seminario/wsvutrll42wgmpxaklzc.png",
-    alt: "Bear in suit",
-  },
-  {
-    id: 7,
-    image:
-      "https://res.cloudinary.com/ddx4fkbj5/image/upload/v1728430959/seminario/wsvutrll42wgmpxaklzc.png",
-    alt: "Girl with glasses",
-  },
-  {
-    id: 8,
-    image:
-      "https://res.cloudinary.com/ddx4fkbj5/image/upload/v1728430959/seminario/wsvutrll42wgmpxaklzc.png",
-    alt: "Bear in suit",
-  },
-];
-
 interface CharacterSelectionProps {
   isOpen: boolean;
   onClose: () => void;
   onSelect: (character: Character) => void;
-  currentCharacter: number | null;
+  currentCharacter: string | null;
+  characters: Character[];
 }
+
+const baseURL = import.meta.env.VITE_BACKEND_URL;
 
 export function CharacterSelection({
   isOpen,
   onClose,
   onSelect,
   currentCharacter,
+  characters,
 }: CharacterSelectionProps) {
+  const [selectedImage, setSelectedImage] = useState<string | null>(
+    currentCharacter
+  );
+  const [isUpdating, setIsUpdating] = useState(false);
+
   if (!isOpen) return null;
+
+  const handleSelect = (character: Character) => {
+    setSelectedImage(character.image);
+  };
+
+  const handleConfirm = async () => {
+    if (!selectedImage) return;
+
+    try {
+      setIsUpdating(true);
+      const accessToken = await Cookies.get("access_token");
+
+      // Create URL with query parameter
+      const url = new URL(`${baseURL}/user/update/image`);
+      url.searchParams.append("image", selectedImage);
+
+      const response = await fetch(url.toString(), {
+        method: "PUT",
+        headers: {
+          "bearer-token": `${accessToken}`,
+        },
+        // Remove body since we're using query parameters
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.detail || "Failed to update image");
+      }
+
+      const character = characters.find((c) => c.image === selectedImage);
+      if (character) {
+        onSelect(character);
+      }
+      onClose();
+    } catch (error) {
+      console.error("Error updating image:", error);
+      // You might want to show an error message to the user here
+    } finally {
+      setIsUpdating(false);
+    }
+  };
 
   return (
     <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
@@ -90,26 +94,50 @@ export function CharacterSelection({
         <div className="grid grid-cols-3 md:grid-cols-4 gap-4 p-4 bg-gray-100">
           {characters.map((character) => (
             <div
-              key={character.id}
+              key={character.alt}
               className="relative cursor-pointer group"
-              onClick={() => onSelect(character)}
+              onClick={() => handleSelect(character)}
             >
-              <Avatar className="w-16 h-16 rounded-full border-2 border-transparent group-hover:border-yellow-400 transition-all">
-                <AvatarImage
-                  src={character.image}
-                  alt={character.alt}
-                  className="object-cover"
-                />
-                <AvatarFallback>CH</AvatarFallback>
-              </Avatar>
-              {currentCharacter === character.id && (
-                <div className="absolute -top-1 -right-1 bg-green-500 rounded-full p-1">
-                  <Check className="w-4 h-4 text-white" />
-                </div>
-              )}
+              <div
+                className={`p-1 rounded-full ${selectedImage === character.image ? "bg-[#98C900] p-3" : "bg-transparent"}`}
+              >
+                <Avatar className="w-16 h-16 rounded-full">
+                  <AvatarImage
+                    src={character.image}
+                    alt={character.alt}
+                    className="object-cover"
+                  />
+                  <AvatarFallback></AvatarFallback>
+                </Avatar>
+              </div>
             </div>
           ))}
         </div>
+        {selectedImage && selectedImage !== currentCharacter && (
+          <div className="p-4 border-t flex justify-end gap-2">
+            <Button
+              variant="outline"
+              onClick={onClose}
+              className="text-gray-500"
+            >
+              Cancelar
+            </Button>
+            <Button
+              onClick={handleConfirm}
+              disabled={isUpdating}
+              className="bg-[#98C900] text-white hover:bg-[#7ba000]"
+            >
+              {isUpdating ? (
+                "Actualizando..."
+              ) : (
+                <>
+                  <Check className="w-4 h-4 mr-2" />
+                  Confirmar
+                </>
+              )}
+            </Button>
+          </div>
+        )}
       </div>
     </div>
   );

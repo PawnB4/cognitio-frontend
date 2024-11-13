@@ -1,6 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { Avatar, AvatarImage, AvatarFallback } from "@radix-ui/react-avatar";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { CharacterSelection } from "@/components/CharacterSelection";
 
 interface ProfileCardProps {
@@ -10,57 +10,19 @@ interface ProfileCardProps {
   onChangeCharacter: (character: Character) => void;
 }
 
-// Character options array
-const characters: Character[] = [
-  {
-    id: 1,
-    image:
-      "https://res.cloudinary.com/ddx4fkbj5/image/upload/v1728430959/seminario/wsvutrll42wgmpxaklzc.png",
-    alt: "Girl with glasses",
-  },
-  {
-    id: 2,
-    image:
-      "https://res.cloudinary.com/ddx4fkbj5/image/upload/v1728430959/seminario/wsvutrll42wgmpxaklzc.png",
-    alt: "Bear in suit",
-  },
-  {
-    id: 3,
-    image:
-      "https://res.cloudinary.com/ddx4fkbj5/image/upload/v1728430959/seminario/wsvutrll42wgmpxaklzc.png",
-    alt: "Girl with glasses",
-  },
-  {
-    id: 4,
-    image:
-      "https://res.cloudinary.com/ddx4fkbj5/image/upload/v1728430959/seminario/wsvutrll42wgmpxaklzc.png",
-    alt: "Bear in suit",
-  },
-  {
-    id: 5,
-    image:
-      "https://res.cloudinary.com/ddx4fkbj5/image/upload/v1728430959/seminario/wsvutrll42wgmpxaklzc.png",
-    alt: "Girl with glasses",
-  },
-  {
-    id: 6,
-    image:
-      "https://res.cloudinary.com/ddx4fkbj5/image/upload/v1728430959/seminario/wsvutrll42wgmpxaklzc.png",
-    alt: "Bear in suit",
-  },
-  {
-    id: 7,
-    image:
-      "https://res.cloudinary.com/ddx4fkbj5/image/upload/v1728430959/seminario/wsvutrll42wgmpxaklzc.png",
-    alt: "Girl with glasses",
-  },
-  {
-    id: 8,
-    image:
-      "https://res.cloudinary.com/ddx4fkbj5/image/upload/v1728430959/seminario/wsvutrll42wgmpxaklzc.png",
-    alt: "Bear in suit",
-  },
-];
+const baseURL = import.meta.env.VITE_BACKEND_URL;
+
+const profileAvatars = async () => {
+  const res = await fetch(`${baseURL}/image/avatars`, {
+    method: "GET",
+  });
+  if (!res.ok) {
+    throw new Error();
+  }
+  const data = await res.json();
+  console.log(data);
+  return data;
+};
 
 interface Character {
   id: number;
@@ -75,10 +37,31 @@ export function ProfileCard({
   onChangeCharacter,
 }: ProfileCardProps) {
   const [isDialogOpen, setIsDialogOpen] = useState(false);
-  const [selectedCharacter, setSelectedCharacter] = useState(1); // Default character ID
+  const [selectedCharacter, setSelectedCharacter] = useState(`${avatarUrl}`);
+  const [characters, setCharacters] = useState<Character[]>([]);
+
+  useEffect(() => {
+    const fetchAvatars = async () => {
+      try {
+        const avatars = await profileAvatars();
+        const formattedAvatars = avatars.map(
+          (avatar: string, index: number) => ({
+            id: index + 1,
+            image: avatar,
+            alt: "Avatar",
+          })
+        );
+        setCharacters(formattedAvatars);
+      } catch (error) {
+        console.error("Failed to fetch avatars", error);
+      }
+    };
+
+    fetchAvatars();
+  }, []);
 
   const handleCharacterSelect = (character: Character) => {
-    setSelectedCharacter(character.id);
+    setSelectedCharacter(character.image);
     setIsDialogOpen(false);
     onChangeCharacter(character);
   };
@@ -97,7 +80,7 @@ export function ProfileCard({
           <Avatar>
             <AvatarImage
               src={
-                characters.find((c) => c.id === selectedCharacter)?.image ||
+                characters.find((c) => c.image === selectedCharacter)?.image ||
                 avatarUrl
               }
               alt="Selected character"
@@ -119,6 +102,7 @@ export function ProfileCard({
           onClose={() => setIsDialogOpen(false)}
           onSelect={handleCharacterSelect}
           currentCharacter={selectedCharacter}
+          characters={characters}
         />
       </div>
     </div>
