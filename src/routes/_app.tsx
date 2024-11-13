@@ -73,7 +73,7 @@ function AppLayout() {
         </Button>
         <NavbarAvatar />
       </nav>
-      <div className="grid grid-cols-12 main-bg flex-grow">
+      <div className="grid main-bg flex-grow">
         <Outlet />
       </div>
     </>
