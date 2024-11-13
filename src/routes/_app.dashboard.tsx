@@ -19,22 +19,23 @@ function Dashboard() {
       <div className="col-span-full md:col-start-5 md:col-end-13 lg:col-start-3 main-bg flex flex-col lg:flex-row justify-center items-center gap-8 p-4 md:px-16"
       >
         <GameCard 
-        imgUrl={"https://images.pexels.com/photos/39896/space-station-moon-landing-apollo-15-james-irwin-39896.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"} 
+        imgUrl={"https://res.cloudinary.com/dr4iesryu/image/upload/v1731502128/Dise%C3%B1o_sin_t%C3%ADtulo_1_ceqx2d.svg"} 
         title={"Lee y Concluye"} 
         description={"Lee el texto con atención y selecciona la respuesta correcta según lo que entiendas del párrafo."}
         game='read-and-conclude'
         />
         <GameCard 
-        imgUrl={"https://images.pexels.com/photos/946071/pexels-photo-946071.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"} 
+        imgUrl={"https://res.cloudinary.com/dr4iesryu/image/upload/v1731502189/Designer_4_1_pyyioc.svg"} 
         title={"Contrarios y Compañeros"} 
         description={"Algunas palabras significan lo mismo y otras todo lo contrario. ¿Podrás descubrir cuál es cuál? "}
         game='syn-ant'
         />
         <GameCard  
-        imgUrl={"https://images.pexels.com/photos/26556161/pexels-photo-26556161/free-photo-of-valley-in-summer.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"} 
+        imgUrl={"https://res.cloudinary.com/dr4iesryu/image/upload/v1731502480/Designer_3_1_2_v2yfyo.svg"} 
         title={"¿Quién fue?"}
         description={"Responde quién fue el que realizó la acción. ¡Usa tu comprensión para encontrar la respuesta correcta!"}
         game='who-was-it'
+        isThirdCard={true}
         />
       </div>
     </>

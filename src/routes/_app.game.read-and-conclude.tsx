@@ -216,36 +216,38 @@ function ReadAndConcludeGame() {
             )
           ) : null}
           {gameStatus === 'finished' && (
-            <div className="flex flex-col justify-center gap-8 py-8">
-              <h1 className="font-extrabold text-2xl  md:text-7xl text-white text-balance text-center">
-                HAS FINALIZADO
-              </h1>
-              <div className="hidden md:block"></div>
-              <div></div>
-              <h3 className="font-extrabold text-lg md:text-5xl text-green-500 text-balance text-center">
-                RESPUESTAS CORRECTAS
-              </h3>
-              <h4 className="font-extrabold text-2xl  md:text-7xl text-white text-balance text-center">
-                {cantidadCorrectas} / {ejercicios && ejercicios.length}
-              </h4>
-              <div></div>
-              <h3 className="font-extrabold text-lg md:text-5xl text-red-500 text-balance text-center">
-                RESPUESTAS INCORRECTAS
-              </h3>
-              <h4 className="font-extrabold text-2xl  md:text-7xl text-white text-balance text-center">
-                {cantidadIncorrectas} / {ejercicios && ejercicios.length}
-              </h4>
-              <Button
-                asChild
-                size={'lg'}
-                className="text-xl font-bold"
-                disabled={isPending}
-                onClick={() => setGameStatus('unstarted')}
-              >
-                <Link to="/dashboard">VOLVER AL INICIO</Link>
-              </Button>
-            </div>
-          )}
+  <div className="flex flex-col justify-center gap-8 py-8">
+    <h1 className="font-extrabold text-xs md:text-2xl text-white text-balance text-center">
+      HAS FINALIZADO
+    </h1>
+    <div className="hidden md:block"></div>
+    <div></div>
+    <h3 className="font-extrabold text-xs md:text-sm text-green-500 text-balance text-center">
+      RESPUESTAS CORRECTAS
+    </h3>
+    <h4 className="font-extrabold text-sm md:text-base text-white text-balance text-center">
+      {cantidadCorrectas} / {ejercicios && ejercicios.length}
+    </h4>
+    <div></div>
+    <h3 className="font-extrabold text-xs md:text-sm text-red-500 text-balance text-center">
+      RESPUESTAS INCORRECTAS
+    </h3>
+    <h4 className="font-extrabold text-sm md:text-base text-white text-balance text-center">
+      {cantidadIncorrectas} / {ejercicios && ejercicios.length}
+    </h4>
+    <div></div>
+    <Button
+      asChild
+      size={'lg'}
+      className="text-sm font-bold"
+      disabled={isPending}
+      onClick={() => setGameStatus('unstarted')}
+    >
+      <Link to="/dashboard">VOLVER AL INICIO</Link>
+    </Button>
+  </div>
+)}
+
         </div>
       </div>
     </div>

@@ -16,13 +16,12 @@ function Profile() {
   const { user } = Route.useRouteContext();
 
   const handleChangeCharacter = (character: Character) => {
-    // Implement character change logic here
     console.log("Character changed:", character);
   };
 
   return (
     <div className="col-span-full flex flex-col">
-      {/* Back button section */}
+      {}
       <div className="w-11/12 mx-auto mt-12 mb-8 hidden md:block">
         <Link
           to="/dashboard"
@@ -47,7 +46,7 @@ function Profile() {
           {/* Profile Card */}
           <ProfileCard
             name={user.username}
-            date="Septiembre 24 2001"
+            date=""
             avatarUrl={user.image_url}
             onChangeCharacter={handleChangeCharacter}
           />

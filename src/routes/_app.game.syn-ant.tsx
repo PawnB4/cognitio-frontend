@@ -86,7 +86,7 @@ function SynAntGame() {
   if (error) {
     return (
       <div className='col-span-full flex justify-center items-center'>
-        <h1 className='p-12  bg-white w-full text-center text-2xl'>
+        <h1 className='p-12 bg-white w-full text-center text-xl'>
           Algo salió mal. Por favor intena nuevamente.
         </h1>
       </div>
@@ -94,32 +94,31 @@ function SynAntGame() {
   }
 
   return (
-    <div className="col-span-full flex flex-col gap-14">
+      <div className="col-span-full flex flex-col gap-8 text-sm mt-0">
       <div></div>
       <div className='md:flex w-11/12 mx-auto hidden'>
-        <Link to="/dashboard" className="flex select-none items-center gap-4 cursor-pointer">
+      <Link to="/dashboard" className="flex select-none items-center gap-4 cursor-pointer">
           <CircleArrowLeft fill='#4ABC96' stroke='white' size={60} strokeWidth={1} />
-          <span className='text-2xl font-bold text-white tracking-wide'>Volver</span>
+          <span className='text-xl font-bold text-white'>Volver</span> 
         </Link>
       </div>
-      <div className='flex justify-center p-4'>
-        <div className='bg-[#3B1F83] rounded-lg flex flex-col md:flex-row gap-8 px-4 py-8 w-full min-h-[450px] lg:w-[1200px] lg:h-[750px] md:w-[800px] md:h-[500px] justify-center items-center md:items-stretch md:justify-around'>
+      <div className="flex justify-center p-0"> 
+      <div className='bg-[#3B1F83] rounded-lg flex flex-col md:flex-row gap-4 px-4 py-6 w-full min-h-[300px] lg:w-[800px] lg:h-[500px] md:w-[600px] md:h-[400px] items-center'>
           {gameStatus === "unstarted" &&
             <>
               <img
                 src="https://images.pexels.com/photos/5258145/pexels-photo-5258145.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
                 alt="Game Image"
-                className="hidden md:block rounded-lg"
+                className="hidden md:block rounded-lg w-1/3 h-auto max-h-48"
               />
               <div className='flex flex-col items-center justify-around gap-8'>
                 <div></div>
-                <h1 className='font-extrabold font-title text-4xl text-white text-balance text-center '>COMPAÑEROS Y CONTRARIOS</h1>
+                <h1 className='font-bold text-3xl text-white text-center'>COMPAÑEROS Y CONTRARIOS</h1>
                 <div></div>
-                <p
-                  className='text-white text-2xl text-balance text-center'
+                <p className='text-white text-base text-center'
                 >Tendrás que leer las palabras y elegir sus <strong>sinónimos</strong> (compañeros) o <strong>antónimos</strong> (contrarios).</p>
                 <p
-                  className='text-white text-3xl text-balance text-center'
+                  className='text-white text-lg text-center'
                 >Selecciona la  <strong>DIFICULTAD</strong></p>
                 <div
                   className='flex w-full justify-evenly gap-2 '
@@ -128,7 +127,7 @@ function SynAntGame() {
                     return (
                       <Button
                         key={dificultades.indexOf(dificultad)}
-                        className={`text-xl w-full font-bold 
+                        className={`w-2/3 text-lg font-bold 
                           ${difficultyLevel === dificultades.indexOf(dificultad) + 1 && "bg-rose-300 border-rose-300"}`}
                         variant={'outline'}
                         onClick={() => setDifficultyLevel(dificultades.indexOf(dificultad) + 1)}
@@ -146,7 +145,7 @@ function SynAntGame() {
                     setGameStatus("inProgress")
                   }}
                 >COMENZAR</Button>
-                <div></div>
+                <div></div>   <div></div>
               </div>
             </>
           }
@@ -170,31 +169,30 @@ function SynAntGame() {
               )
             ) : null
           }
-          {gameStatus === "finished" &&
-            <div
-              className='flex flex-col justify-center gap-8 py-8'
-            >
-              <h1 className="font-extrabold text-2xl  md:text-7xl text-white text-balance text-center">
+          {gameStatus === "finished" && (
+            <div className="flex relative justify-center items-center w-full h-full">
+            <div className='flex flex-col justify-center gap-8 py-8'>
+              <h1 className="font-extrabold text-sm md:text-2xl text-white text-balance text-center">
                 HAS FINALIZADO
               </h1>
               <div className='hidden md:block'></div>
               <div></div>
-              <h3 className="font-extrabold text-lg md:text-5xl text-green-500 text-balance text-center">
+              <h3 className="font-extrabold text-sm md:text-xl text-green-500 text-balance text-center">
                 RESPUESTAS CORRECTAS
               </h3>
-              <h4 className="font-extrabold text-2xl  md:text-7xl text-white text-balance text-center">
+              <h4 className="font-extrabold text-sm md:text-2xl text-white text-balance text-center">
                 {cantidadCorrectas} / {ejercicios.length}
               </h4>
               <div></div>
-              <h3 className="font-extrabold text-lg md:text-5xl text-red-500 text-balance text-center">
+              <h3 className="font-extrabold text-sm md:text-xl text-red-500 text-balance text-center">
                 RESPUESTAS INCORRECTAS
               </h3>
-              <h4 className="font-extrabold text-2xl  md:text-7xl text-white text-balance text-center">
+              <h4 className="font-extrabold text-sm md:text-2xl text-white text-balance text-center">
                 {cantidadIncorrectas} / {ejercicios.length}
               </h4>
               <Button asChild
                 size={'lg'}
-                className='text-xl font-bold'
+                className='text-sm font-bold'
                 disabled={isPending}
                 onClick={() => setGameStatus("unstarted")}
               >
@@ -203,7 +201,9 @@ function SynAntGame() {
                 </Link>
               </Button>
             </div>
-          }
+            </div>
+          )}
+
 
         </div>
       </div>
