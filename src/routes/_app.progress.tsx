@@ -1,6 +1,4 @@
 import { createFileRoute } from '@tanstack/react-router'
-import { useEffect, useState } from "react";
-
 
 export const Route = createFileRoute('/_app/progress')({
   component: Progress,
@@ -8,46 +6,8 @@ export const Route = createFileRoute('/_app/progress')({
 
 
 function Progress() {
-    // Estado para almacenar la URL de la imagen del avatar
-    const [avatarUrl, setAvatarUrl] = useState("");
-
-
-  // Función para obtener los datos del usuario
-  const fetchUserData = async () => {
-    try {
-      const token = localStorage.getItem("token"); // Asegúrate de que el token esté en localStorage
-
-
-      if (!token) {
-        console.error("No hay token de autenticación");
-        return;
-      }
-
-
-      const response = await fetch("/user/token/me", {
-        headers: {
-          Authorization: `Bearer ${token}`, // Asegúrate de pasar el token en el encabezado
-        },
-      });
-
-
-      // Si la respuesta es exitosa, extraemos la URL de la imagen
-      if (response.ok) {
-        const data = await response.json();
-        setAvatarUrl(data.image_url); // Guarda la URL de la imagen en el estado
-      } else {
-        const errorText = await response.text();
-        console.error("Error al obtener los datos del usuario:", errorText); // Muestra el error si no es 200
-      }
-    } catch (error) {
-      console.error("Error de red:", error); // Manejo de errores en la conexión de red
-    }
-  };
- 
-    // Llama a la función fetchUserData cuando el componente se monta
-    useEffect(() => {
-      fetchUserData();
-    }, []);
+  const { user } = Route.useRouteContext();
+  const avatarUrl = user?.image_url; 
  
   return (
     <div className="flex items-center justify-center min-h-screen ">
