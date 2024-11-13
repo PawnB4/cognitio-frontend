@@ -103,7 +103,7 @@ function SynAntGame() {
         </Link>
       </div>
       <div className="flex justify-center p-0"> 
-      <div className='bg-[#3B1F83] rounded-lg flex flex-col md:flex-row gap-4 px-4 py-6 w-full min-h-[300px] lg:w-[800px] lg:h-[500px] md:w-[600px] md:h-[400px] items-center'>
+      <div className='bg-[#3B1F83] rounded-lg flex flex-col md:flex-row gap-4 px-4 py-6 w-full min-h-[300px] lg:w-[800px] lg:h-[500px] md:w-[600px] md:h-[400px] items-center m-0 p-0'>
           {gameStatus === "unstarted" &&
             <>
               <img
@@ -145,7 +145,7 @@ function SynAntGame() {
                     setGameStatus("inProgress")
                   }}
                 >COMENZAR</Button>
-                <div></div>   <div></div>
+                <div></div>   
               </div>
             </>
           }
@@ -168,7 +168,7 @@ function SynAntGame() {
                 </div>
               )
             ) : null
-          }
+          } 
           {gameStatus === "finished" && (
             <div className="flex relative justify-center items-center w-full h-full">
             <div className='flex flex-col justify-center gap-8 py-8'>
@@ -204,9 +204,9 @@ function SynAntGame() {
             </div>
           )}
 
-
         </div>
       </div>
+          <div></div>
     </div>
   )
 }

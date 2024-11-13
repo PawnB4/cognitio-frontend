@@ -57,7 +57,7 @@ function LogIn() {
         const { access_token } = await mutation.mutateAsync(value)
         form.reset();
         Cookies.set('access_token', access_token)
-        navigate({ to: "/dashboard" });
+        navigate({ to: "/dashboard",replace:true });
       } catch (error) {
         console.log(error)
         alert("Invalid username or password")

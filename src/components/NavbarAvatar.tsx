@@ -30,7 +30,7 @@ export function NavbarAvatar() {
         await queryClient.invalidateQueries({
             queryKey: ['get-current-user'],
         })
-        navigate({ to: "/login" })
+        navigate({ to: "/login",replace:true })
     }
 
     return (

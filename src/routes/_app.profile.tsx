@@ -1,22 +1,24 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { CircleArrowLeft } from "lucide-react";
 import { ProfileCard } from "@/components/ProfileCard";
+import { useQueryClient } from "@tanstack/react-query";
 
 export const Route = createFileRoute("/_app/profile")({
   component: Profile,
 });
 
-interface Character {
-  id: number;
-  image: string;
-  alt: string;
-}
+
 
 function Profile() {
   const { user } = Route.useRouteContext();
 
-  const handleChangeCharacter = (character: Character) => {
-    console.log("Character changed:", character);
+  const queryClient = useQueryClient()
+
+
+  const handleChangeCharacter = async () => {
+    await queryClient.invalidateQueries({
+      queryKey: ['get-current-user'],
+    })
   };
 
   return (

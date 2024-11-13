@@ -51,31 +51,37 @@ function AppLayout() {
       await queryClient.invalidateQueries({
           queryKey: ['get-current-user'],
       })
-      navigate({ to: "/login" })
+      navigate({ to: "/login",replace:true })
   }
   return (
     <>
-      <nav className="bg-secondary flex py-4 px-4 md:px-8 items-center justify-between">
-        <Link to='/dashboard' className='flex gap-4 justify-center items-center' >
+      <nav className="bg-secondary fixed top-0 left-0 w-full z-50 py-4 px-4 md:px-8 flex items-center justify-between">
+        <Link to='/dashboard' className='flex gap-4'>
           <img
             src="https://res.cloudinary.com/ddx4fkbj5/image/upload/v1728360182/khjw9l4n7s1ouvlva56u.png"
             alt="Astronaut"
-            className='w-10 md:w-[80px]'
+            className='w-10 md:w-[50px]'
           />
-          <h1
-            className="text-4xl font-title font-bold tracking-wide text-secondary-foreground hidden md:block"
-          >
+          <h1 className="text-4xl font-title font-bold tracking-wide text-secondary-foreground hidden md:block">
             Cognitio
           </h1>
         </Link>
-        <Button variant={'link'} className='hidden md:block text-secondary-foreground text-xl' onClick={logout}>
-          Cerrar sesión
-        </Button>
-        <NavbarAvatar />
+  
+        {/* Use ml-auto to push the button and NavbarAvatar to the right */}
+        <div className="flex items-center ml-auto gap-4">
+          <Button variant={'link'} className='hidden md:block text-secondary-foreground text-xl' onClick={logout}>
+            Cerrar sesión
+          </Button>
+          <NavbarAvatar />
+        </div>
       </nav>
-      <div className="grid main-bg flex-grow">
+  
+      {/* Make sure this container is not overlapping with the navbar */}
+      <div className="grid main-bg flex-grow pt-[80px]">
         <Outlet />
       </div>
     </>
   )
+  
+  
 }
