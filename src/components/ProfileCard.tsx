@@ -20,7 +20,6 @@ const profileAvatars = async () => {
     throw new Error();
   }
   const data = await res.json();
-  console.log(data);
   return data;
 };
 
@@ -67,7 +66,7 @@ export function ProfileCard({
   };
 
   return (
-    <div className="bg-white rounded-2xl w-full md:w-[300px] md:h-[400px] lg:w-[600px] flex flex-col md:flex-row lg:flex-col items-center justify-center overflow-hidden shadow-lg">
+    <div className="bg-white rounded-2xl w-full md:w-[300px] md:h-[400px] lg:w-[600px] flex flex-col md:flex-row lg:flex-col items-center justify-center overflow-hidden shadow-lg mt-20">
       <div className="bg-yellow-400 p-4 w-full align-top">
         <div className="flex align-middle">
           <h2 className="text-white text-2xl font-medium w-full">{name}</h2>

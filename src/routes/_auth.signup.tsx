@@ -55,18 +55,14 @@ function SignUp() {
 
     onSubmit: async ({ value }) => {
       try {
-        const data = await signupUser({
+        await signupUser({
           username: value.username,
           email: value.email,
           image_url: value.image_url,
           password: value.password,
         });
-
         form.reset();
         setSelectedCharacter("");
-
-        console.log("Data from server: ", data);
-
         navigate({ to: "/login", replace: true });
       } catch (error) {
         console.log(error);
@@ -221,12 +217,16 @@ function SignUp() {
           />
         </form>
       </div>
-      <span className="">
+
+      <div className='div flex justify-center items-center mt-4 '>
+        <p className="text-white">
         Ya tenes cuenta?
-        <Button asChild size={"lg"} variant="link">
+        </p>
+
+        <Button asChild size="lg" variant="link" className="font-bold text-1xl">
           <Link to="/login">Iniciar sesión</Link>
         </Button>
-      </span>
+      </div>
     </div>
   );
 }

@@ -32,29 +32,32 @@ const generateGame = async (gameNumber: number, difficultyLevel: number, exercis
       number_excercises: exercisesAmount,
     }),
   });
-  if(!res.ok){
+  if (!res.ok) {
     throw new Error
   }
   const data = await res.json();
   return data.ejercicios;
 };
 
-// const generateProgress = async (cantidadCorrectas: number, cantidadIncorrectas: number, difficultyLevel:number ) => {
-//   const accessToken = await Cookies.get("access_token")
-//   await fetch(`${baseURL}/progress`, {
-//     method: "POST",
-//     headers: {
-//       "Content-Type": "application/json",
-//       "bearer-token": `${accessToken}`
-//     },
-//     body: JSON.stringify({
-//       level: difficultyLevel,
-//       type: "syn_ant",
-//       correct: cantidadCorrectas,
-//       incorrect: cantidadIncorrectas
-//     }),
-//   });
-// }
+const generateProgress = async (amountCorrect: number, amountIncorrect: number, difficultyLevel: number,) => {
+  const accessToken = await Cookies.get("access_token");
+  const res = await fetch(`${baseURL}/progress/`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      "bearer-token": `${accessToken}`,
+    },
+    body: JSON.stringify({
+      level: difficultyLevel,
+      correct: amountCorrect,
+      incorrect: amountIncorrect,
+      type: "Contrarios y Compañeros"
+    }),
+  });
+  if (!res.ok) {
+    throw new Error
+  }
+};
 
 
 const dificultades = ["facil", "medio", "dificil"]
@@ -73,7 +76,10 @@ function SynAntGame() {
   const finalizarJuego = async () => {
     setGameStatus("finished")
     queryClient.invalidateQueries({ queryKey: ["syn-ant-game", difficultyLevel] })
-    // await generateProgress(cantidadCorrectas, cantidadIncorrectas, difficultyLevel)
+    await generateProgress(cantidadCorrectas, cantidadIncorrectas, difficultyLevel)
+    await queryClient.invalidateQueries({
+      queryKey: ['progress'],
+    })
   }
 
   const { data: ejercicios = [], isPending, error, refetch } = useQuery<SynonymAntonymExercise[]>({
@@ -94,40 +100,51 @@ function SynAntGame() {
   }
 
   return (
-      <div className="col-span-full flex flex-col gap-8 text-sm mt-0">
+    <div className="col-span-full flex flex-col gap-4">
       <div></div>
-      <div className='md:flex w-11/12 mx-auto hidden'>
-      <Link to="/dashboard" className="flex select-none items-center gap-4 cursor-pointer">
-          <CircleArrowLeft fill='#4ABC96' stroke='white' size={60} strokeWidth={1} />
-          <span className='text-xl font-bold text-white'>Volver</span> 
+      <div className="md:flex w-11/12 mx-auto hidden">
+        <Link
+          to="/dashboard"
+          className="flex select-none items-center gap-4 cursor-pointer"
+        >
+          <CircleArrowLeft
+            fill="#4ABC96"
+            stroke="white"
+            size={60}
+            strokeWidth={1}
+          />
+          <span className="text-2xl font-bold text-white tracking-wide">
+            Volver
+          </span>
         </Link>
       </div>
-      <div className="flex justify-center p-0"> 
-      <div className='bg-[#3B1F83] rounded-lg flex flex-col md:flex-row gap-4 px-4 py-6 w-full min-h-[300px] lg:w-[800px] lg:h-[500px] md:w-[600px] md:h-[400px] items-center m-0 p-0'>
+      <div className="flex justify-center p-4">
+        <div className='bg-[#3B1F83] rounded-lg flex flex-col md:flex-row gap-8 md:p-8 p-4 
+        w-full xl:w-[1200px] justify-center items-center md:items-stretch md:justify-around'>
           {gameStatus === "unstarted" &&
             <>
-              <img
-                src="https://images.pexels.com/photos/5258145/pexels-photo-5258145.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
-                alt="Game Image"
-                className="hidden md:block rounded-lg w-1/3 h-auto max-h-48"
-              />
-              <div className='flex flex-col items-center justify-around gap-8'>
-                <div></div>
-                <h1 className='font-bold text-3xl text-white text-center'>COMPAÑEROS Y CONTRARIOS</h1>
-                <div></div>
-                <p className='text-white text-base text-center'
+              <div className='hidden md:block md:w-full'>
+                <img
+                  src="https://res.cloudinary.com/dr4iesryu/image/upload/v1731502189/Designer_4_1_pyyioc.svg"
+                  alt="Game Image"
+                  className="hidden md:block rounded-lg w-full"
+                />
+              </div>
+              <div className='flex flex-col items-center justify-around gap-4'>
+                <h1 className='font-extrabold font-title text-4xl text-white text-balance text-center'>COMPAÑEROS Y CONTRARIOS</h1>
+                <p className='text-white text-2xl text-balance text-center'
                 >Tendrás que leer las palabras y elegir sus <strong>sinónimos</strong> (compañeros) o <strong>antónimos</strong> (contrarios).</p>
                 <p
-                  className='text-white text-lg text-center'
+                  className='text-white text-3xl text-balance text-center'
                 >Selecciona la  <strong>DIFICULTAD</strong></p>
                 <div
-                  className='flex w-full justify-evenly gap-2 '
+                  className='flex flex-col md:flex-row w-full justify-evenly gap-2'
                 >
                   {dificultades.map((dificultad) => {
                     return (
                       <Button
                         key={dificultades.indexOf(dificultad)}
-                        className={`w-2/3 text-lg font-bold 
+                        className={`text-xl w-full font-bold 
                           ${difficultyLevel === dificultades.indexOf(dificultad) + 1 && "bg-rose-300 border-rose-300"}`}
                         variant={'outline'}
                         onClick={() => setDifficultyLevel(dificultades.indexOf(dificultad) + 1)}
@@ -138,14 +155,13 @@ function SynAntGame() {
 
                 <Button
                   size={'lg'}
-                  className='w-3/4 text-xl font-bold'
+                  className='w-full text-xl font-bold'
                   onClick={() => {
                     // Ejecutar query
                     refetch()
                     setGameStatus("inProgress")
                   }}
                 >COMENZAR</Button>
-                <div></div>   
               </div>
             </>
           }
@@ -160,53 +176,51 @@ function SynAntGame() {
                 />
               ) : (
 
-                <div className='w-full h-full relative flex justify-center items-center '>
-                  <h1 className='absolute top-0 md:top-10 font-extrabold text-4xl text-white text-balance text-center '>CARGANDO...</h1>
+                <div className='w-full h-96 relative flex justify-center items-center '>
+                  <h1 className='absolute top-0 md:top-10 font-extrabold text-4xl text-white text-balance text-center'>CARGANDO...</h1>
                   <SpinningIndicator
                     size={20}
                   />
                 </div>
               )
             ) : null
-          } 
+          }
           {gameStatus === "finished" && (
-            <div className="flex relative justify-center items-center w-full h-full">
-            <div className='flex flex-col justify-center gap-8 py-8'>
-              <h1 className="font-extrabold text-sm md:text-2xl text-white text-balance text-center">
+            <div className="flex flex-col justify-center gap-4 py-4">
+              <h1 className="font-extrabold text-2xl  md:text-7xl text-white text-balance text-center">
                 HAS FINALIZADO
               </h1>
-              <div className='hidden md:block'></div>
+              <div className="hidden md:block"></div>
               <div></div>
-              <h3 className="font-extrabold text-sm md:text-xl text-green-500 text-balance text-center">
+              <h3 className="font-extrabold text-lg md:text-4xl text-green-500 text-balance text-center">
                 RESPUESTAS CORRECTAS
               </h3>
-              <h4 className="font-extrabold text-sm md:text-2xl text-white text-balance text-center">
-                {cantidadCorrectas} / {ejercicios.length}
+              <h4 className="font-extrabold text-2xl  md:text-6xl text-white text-balance text-center">
+                {cantidadCorrectas} / {ejercicios && ejercicios.length}
               </h4>
               <div></div>
-              <h3 className="font-extrabold text-sm md:text-xl text-red-500 text-balance text-center">
+              <h3 className="font-extrabold text-lg md:text-4xl text-red-500 text-balance text-center">
                 RESPUESTAS INCORRECTAS
               </h3>
-              <h4 className="font-extrabold text-sm md:text-2xl text-white text-balance text-center">
-                {cantidadIncorrectas} / {ejercicios.length}
+              <h4 className="font-extrabold text-2xl  md:text-6xl text-white text-balance text-center">
+                {cantidadIncorrectas} / {ejercicios && ejercicios.length}
               </h4>
-              <Button asChild
+              <div></div>
+              <Button
+                asChild
                 size={'lg'}
-                className='text-sm font-bold'
+                className="text-sm md:text-xl font-bold"
                 disabled={isPending}
-                onClick={() => setGameStatus("unstarted")}
+                onClick={() => setGameStatus('unstarted')}
               >
-                <Link to='/dashboard'>
-                  VOLVER AL INICIO
-                </Link>
+                <Link to="/dashboard">VOLVER AL INICIO</Link>
               </Button>
-            </div>
             </div>
           )}
 
         </div>
       </div>
-          <div></div>
+      <div></div>
     </div>
   )
 }

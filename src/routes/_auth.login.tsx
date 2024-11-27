@@ -78,7 +78,7 @@ function LogIn() {
             form.handleSubmit();
           }}
         >
-          <h2 className="text-center text-1xl mb-2 font-bold text-white">
+          <h2 className="text-center text-1xl mb-2 font-bold text-black">
             Ingresá tus datos para comenzar a aprender
           </h2>
 

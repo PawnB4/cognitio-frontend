@@ -19,10 +19,13 @@ import { Link, useNavigate } from "@tanstack/react-router"
 //@ts-ignore
 import Cookies from 'js-cookie'
 import { useQueryClient } from "@tanstack/react-query"
+import { SignupUserResponse } from "@/api/types"
 
+type NavbarAvatarProps = {
+    user: SignupUserResponse;
+};
 
-
-export function NavbarAvatar() {
+export const NavbarAvatar: React.FC<NavbarAvatarProps>= ({ user }) => {
     const queryClient = useQueryClient()
     const navigate = useNavigate()
     const logout = async () => {
@@ -30,7 +33,7 @@ export function NavbarAvatar() {
         await queryClient.invalidateQueries({
             queryKey: ['get-current-user'],
         })
-        navigate({ to: "/login",replace:true })
+        navigate({ to: "/login", replace: true })
     }
 
     return (
@@ -38,12 +41,12 @@ export function NavbarAvatar() {
             <DropdownMenuTrigger asChild>
                 <Avatar className='md:hidden w-12 h-12'>
                     <AvatarImage
-                        src="https://res.cloudinary.com/ddx4fkbj5/image/upload/v1728430959/seminario/wsvutrll42wgmpxaklzc.png" />
-                    <AvatarFallback>JP</AvatarFallback>
+                        src={user.image_url} />
+                    <AvatarFallback>{user.username.slice(0, 2).toUpperCase()}</AvatarFallback>
                 </Avatar>
             </DropdownMenuTrigger>
             <DropdownMenuContent className="mr-1">
-                <DropdownMenuLabel>Juan Perez</DropdownMenuLabel>
+                <DropdownMenuLabel>{user.username}</DropdownMenuLabel>
                 <DropdownMenuSeparator />
                 <DropdownMenuGroup>
                     <Link to="/profile">

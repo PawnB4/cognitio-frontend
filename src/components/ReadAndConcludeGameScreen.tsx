@@ -65,18 +65,18 @@ export function ReadAndConcludeGameScreen({ ejercicios, incrementarCorrectas, in
   if (ejercicioFlag === "inProgress") {
 
     return (
-      <div className="flex relative justify-around items-center flex-col md:w-3/4 gap-5">
+      <div className="flex relative justify-around items-center flex-col w-full py-2 gap-3">
         <span
-          className="md:absolute top-0 -right-12 text-md md:text-2xl text-white font-bold pt-2"
+          className="md:absolute -top-6 -right-5 bg-green-300 rounded-sm px-2 py-0.5 text-black font-bold"
         >
           {ejercicioCounter + 1} / {ejercicios.length}
         </span>
-        <h1 className="font-bold text-xl md:text-4xl text-white text-balance text-left md:text-center">
+        <h1 className="font-bold text-xl  text-white text-balance md:text-justify md:pt-2">
           {ejercicioActual.texto.toUpperCase()}
         </h1>
         <div></div>
         <h2 className="font-extrabold w-full font-title 
-        rounded-xl py-2 text-2xl md:text-4xl text-white text-balance text-center bg-[#9C34C2]">
+        rounded-xl py-2 text-2xl md:text-3xl text-white text-balance text-center bg-[#9C34C2]">
           {ejercicioActual.pregunta.toUpperCase()}
         </h2>
         <div></div>
@@ -86,7 +86,7 @@ export function ReadAndConcludeGameScreen({ ejercicios, incrementarCorrectas, in
             <button
               key={index}
               onClick={() => handleOptionClick(opcion)}
-              className={`w-full text-center p-2 md:p-4 text-white text-lg text-balance rounded-2xl md:text-2xl bg-[#7960EA]`}>
+              className={`w-full text-center p-2 md:p-4 text-white text-lg text-balance rounded-2xl bg-[#7960EA]`}>
               {opcion.toUpperCase()}
             </button>
           ))}
@@ -123,7 +123,7 @@ export function ReadAndConcludeGameScreen({ ejercicios, incrementarCorrectas, in
             return (
               <p 
               key={index}
-              className="w-full font-bold text-center py-4 px-2 md:p-4 text-white text-2xl md:text-3xl rounded-2xl bg-green-400">
+              className="w-full font-bold text-center py-4 px-2 md:p-4 text-black text-2xl md:text-3xl rounded-2xl bg-green-400">
                 {opcion.toUpperCase()}
               </p>
             )

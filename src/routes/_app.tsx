@@ -10,7 +10,7 @@ import { SignupUserResponse } from '@/api/types'
 const baseURL = import.meta.env.VITE_BACKEND_URL;
 
 
-const getUser = async ():Promise<SignupUserResponse> => {
+const getUser = async (): Promise<SignupUserResponse> => {
   const accessToken = await Cookies.get("access_token")
   const res = await fetch(`${baseURL}/user/token/me`, {
     method: "GET",
@@ -19,7 +19,7 @@ const getUser = async ():Promise<SignupUserResponse> => {
       "bearer-token": `${accessToken}`
     },
   });
-  if(!res.ok){
+  if (!res.ok) {
     throw new Error
   }
   const data = await res.json();
@@ -31,10 +31,9 @@ export const Route = createFileRoute('/_app')({
     const queryClient = context.queryClient
     try {
       const user = await queryClient.fetchQuery({ queryKey: ["get-current-user"], queryFn: () => getUser(), staleTime: Infinity })
-      console.log("user middleware: ", user)
       return { user }
     } catch (e) {
-      console.log("Error: ",e)
+      console.log("Error: ", e)
       throw redirect({ to: "/login", replace: true })
     }
   },
@@ -44,14 +43,17 @@ export const Route = createFileRoute('/_app')({
 
 function AppLayout() {
 
+  const { user } = Route.useRouteContext();
+
+
   const queryClient = useQueryClient()
   const navigate = useNavigate()
   const logout = async () => {
-      await Cookies.remove("access_token")
-      await queryClient.invalidateQueries({
-          queryKey: ['get-current-user'],
-      })
-      navigate({ to: "/login",replace:true })
+    await Cookies.remove("access_token")
+    await queryClient.invalidateQueries({
+      queryKey: ['get-current-user'],
+    })
+    navigate({ to: "/login", replace: true })
   }
   return (
     <>
@@ -66,22 +68,22 @@ function AppLayout() {
             Cognitio
           </h1>
         </Link>
-  
+
         {/* Use ml-auto to push the button and NavbarAvatar to the right */}
         <div className="flex items-center ml-auto gap-4">
           <Button variant={'link'} className='hidden md:block text-secondary-foreground text-xl' onClick={logout}>
             Cerrar sesión
           </Button>
-          <NavbarAvatar />
+          <NavbarAvatar user={user} />
         </div>
       </nav>
-  
+
       {/* Make sure this container is not overlapping with the navbar */}
       <div className="grid main-bg flex-grow pt-[80px]">
         <Outlet />
       </div>
     </>
   )
-  
-  
+
+
 }

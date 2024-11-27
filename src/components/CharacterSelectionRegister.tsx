@@ -40,9 +40,6 @@ export default function CharacterSelectionRegister({
               className="relative cursor-pointer group"
               onClick={() => {
                 onSelect(imageUrl);
-                console.log(imageUrl);
-                console.log(currentCharacter);
-                console.log(currentCharacter === imageUrl);
               }}
             >
               <div

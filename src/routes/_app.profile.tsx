@@ -3,6 +3,7 @@ import { CircleArrowLeft } from "lucide-react";
 import { ProfileCard } from "@/components/ProfileCard";
 import { useQueryClient } from "@tanstack/react-query";
 
+
 export const Route = createFileRoute("/_app/profile")({
   component: Profile,
 });
@@ -23,7 +24,6 @@ function Profile() {
 
   return (
     <div className="col-span-full flex flex-col">
-      {}
       <div className="w-11/12 mx-auto mt-12 mb-8 hidden md:block">
         <Link
           to="/dashboard"

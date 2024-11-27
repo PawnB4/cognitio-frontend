@@ -31,8 +31,8 @@ return (
       />
     </CardHeader>
     <CardContent className="flex flex-col gap-3">
-      <CardTitle className="text-xl xl:text-xl text-balance text-center xl:text-left">{title}</CardTitle>
-      <CardDescription className="text-xs md:text-sm text-balance font-bold text-white text-center md:text-left">{description}</CardDescription>
+      <CardTitle className="text-2xl text-balance text-center xl:text-left">{title.toUpperCase()}</CardTitle>
+      <CardDescription className="text-balance font-bold text-white text-center md:text-left">{description}</CardDescription>
     </CardContent>
     <CardFooter className="mt-auto">
       <Button asChild className="w-full font-bold">
