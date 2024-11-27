@@ -84,7 +84,7 @@ function ReadAndConcludeGame() {
   }
 
   const { data: ejercicios = [], isPending, error, refetch } = useQuery<ReadAndConcludeExercise[]>({
-    queryKey: ["syn-ant-game", difficultyLevel],
+    queryKey: ["read-and-conclude-game", difficultyLevel],
     queryFn: () => generateGame(2, difficultyLevel, 5),
     enabled: false
   })

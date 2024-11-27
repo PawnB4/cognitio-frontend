@@ -1,6 +1,6 @@
+/* eslint-disable @typescript-eslint/ban-ts-comment */
 import { createFileRoute, Link } from '@tanstack/react-router'
 import { CircleArrowLeft } from 'lucide-react';
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
 //@ts-ignore
 import Cookies from "js-cookie";
 import { SpinningIndicator } from '@/components/SpinningIndicator';
@@ -45,6 +45,8 @@ function Progress() {
     queryKey: ["progress"],
     queryFn: () => getProgress(),
   })
+
+  console.log(estadisticas)
 
   if (error) {
     return (
@@ -100,11 +102,34 @@ function Progress() {
               <h1 className='font-title font-bold text-xl'>Juego</h1>
               <h1 className='font-title font-bold text-xl'>Estadísticas</h1>
               <p className='self-center text-center text-balance'>Lee y Concluye</p>
-              <ProgressRing percentage={calculatePercentage(estadisticas[0]?.total || 0, estadisticas[0]?.correct || 0)} />
+              <ProgressRing
+                percentage={calculatePercentage(
+                  //@ts-ignore
+                  estadisticas.find((item) => item.type === "Lee y Concluye")?.total || 0,
+                  //@ts-ignore
+                  estadisticas.find((item) => item.type === "Lee y Concluye")?.correct || 0
+                )}
+              />
+
               <p className='self-center text-center text-balance'>Contrarios y Compañeros</p>
-              <ProgressRing percentage={calculatePercentage(estadisticas[1]?.total || 0, estadisticas[1]?.correct || 0)} />
+              <ProgressRing
+                percentage={calculatePercentage(
+                  //@ts-ignore
+                  estadisticas.find((item) => item.type === "Contrarios y Compañeros")?.total || 0,
+                  //@ts-ignore
+                  estadisticas.find((item) => item.type === "Contrarios y Compañeros")?.correct || 0
+                )}
+              />
+
               <p className='self-center text-center text-balance'>¿Quién fue?</p>
-              <ProgressRing percentage={calculatePercentage(estadisticas[2]?.total || 0, estadisticas[2]?.correct || 0)} />
+              <ProgressRing
+                percentage={calculatePercentage(
+                  //@ts-ignore
+                  estadisticas.find((item) => item.type === "¿Quién fue?")?.total || 0,
+                  //@ts-ignore
+                  estadisticas.find((item) => item.type === "¿Quién fue?")?.correct || 0
+                )}
+              />
             </div>
           )}
         </div>

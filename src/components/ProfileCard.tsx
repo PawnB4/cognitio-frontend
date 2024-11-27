@@ -69,8 +69,8 @@ export function ProfileCard({
     <div className="bg-white rounded-2xl w-full md:w-[300px] md:h-[400px] lg:w-[600px] flex flex-col md:flex-row lg:flex-col items-center justify-center overflow-hidden shadow-lg mt-20 sm:mt-0">
       <div className="bg-yellow-400 p-4 w-full align-top">
         <div className="flex align-middle">
-          <h2 className="text-white text-2xl font-medium w-full">{name}</h2>
-          <h3 className="text-white/90 text-lg w-full text-end">{date}</h3>
+          <h2 className="text-black text-2xl font-medium w-full">{name}</h2>
+          <h3 className="text-black/90 text-lg w-full text-end">{date}</h3>
         </div>
       </div>
 
@@ -91,7 +91,7 @@ export function ProfileCard({
 
         <Button
           variant="outline"
-          className="w-full border-yellow-400 text-yellow-400 hover:bg-yellow-400 hover:text-white transition-colors"
+          className="w-full border-yellow-400 text-black hover:bg-yellow-400 transition-colors"
           onClick={() => setIsDialogOpen(true)}
         >
           CAMBIAR PERSONAJE
