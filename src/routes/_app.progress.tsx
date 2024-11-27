@@ -21,7 +21,7 @@ const getProgress = async () => {
       "bearer-token": `${accessToken}`,
     },
   });
-  if (!res.ok) {
+  if (res.status !== 404 && !res.ok) {
     throw new Error
   }
   const data = await res.json();
@@ -100,11 +100,11 @@ function Progress() {
               <h1 className='font-title font-bold text-xl'>Juego</h1>
               <h1 className='font-title font-bold text-xl'>Estadísticas</h1>
               <p className='self-center text-center text-balance'>Lee y Concluye</p>
-              <ProgressRing percentage={calculatePercentage(estadisticas[0].total, estadisticas[0].correct)} />
+              <ProgressRing percentage={calculatePercentage(estadisticas[0]?.total || 0, estadisticas[0]?.correct || 0)} />
               <p className='self-center text-center text-balance'>Contrarios y Compañeros</p>
-              <ProgressRing percentage={calculatePercentage(estadisticas[1].total, estadisticas[1].correct)} />
+              <ProgressRing percentage={calculatePercentage(estadisticas[1]?.total || 0, estadisticas[1]?.correct || 0)} />
               <p className='self-center text-center text-balance'>¿Quién fue?</p>
-              <ProgressRing percentage={calculatePercentage(estadisticas[2].total, estadisticas[2].correct)} />
+              <ProgressRing percentage={calculatePercentage(estadisticas[2]?.total || 0, estadisticas[2]?.correct || 0)} />
             </div>
           )}
         </div>
