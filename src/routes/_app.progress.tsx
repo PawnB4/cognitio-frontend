@@ -20,7 +20,7 @@ const baseURL = import.meta.env.VITE_BACKEND_URL;
 interface ProgressData {
   type: GameType;
   correct: number;
-  incorrect: number;
+  total: number;
 }
 
 // Estado para manejar el progreso de los juegos
@@ -51,9 +51,6 @@ function Progress() {
           return;
         }
 
-         // Imprimir el token en la consola
-        console.log('Token obtenido:', token);
-
         const res = await fetch(`${baseURL}/progress/`, {
           method: 'GET',
           headers: {
@@ -64,15 +61,12 @@ function Progress() {
         const data = await res.json();
 
 
-        // Imprimir la respuesta en la consola
-        console.log('Respuesta del GET a /progress:', data);
-
-
 
         if (res.ok) {
           // Mapeamos la respuesta para extraer el progreso
-          const updatedProgress: ProgressState = data.reduce((acc: ProgressState, { type, correct, incorrect }: ProgressData) => {
-            const progress = (correct / (correct + incorrect)) * 100 || 0;
+          const updatedProgress: ProgressState = data.reduce((acc: ProgressState, { type, correct, total }: ProgressData) => {
+            const progress = total > 0 ? (correct / total) * 100 : 0;
+            console.log(`Juego: ${type}, Correctas: ${correct}, Total: ${total}, Progreso: ${progress}%`);
             switch (type) {
               case 'Contrarios y Compañeros':
                 acc.contrariosYCompañeros = progress;
@@ -99,12 +93,13 @@ function Progress() {
         console.error('Error al obtener el progreso:', error);
       }
     };
-
+    console.log(progress); // Verifica los valores de progreso
     fetchProgress();
   }, []);
 
 
   return (
+    
     <div className="flex items-center justify-center min-h-screen ">
       {/* Tarjeta de Progreso */}
       <div className="bg-white rounded-lg shadow-lg p-8 w-full max-w-lg">
@@ -143,45 +138,45 @@ function Progress() {
 
 // Componente de círculo de progreso
 function ProgressCircle({ value }: { value: number }) {
-  const strokeDashoffset = 126 - (value * 1.26);  // Cálculo para el progreso del círculo
-  let color;
+  let strokeColor: string;
 
-  // Definimos los colores en función del valor
+  // Definir el color según el valor
   if (value === 0) {
-    color = 'text-gray-300';  // Gris para 0%
+    strokeColor = '#D1D5DB';  // Gris para 0%
   } else if (value === 100) {
-    color = 'text-green-500'; // Verde para 100%
+    strokeColor = '#10B981';  // Verde para 100%
   } else {
-    color = 'text-yellow-500'; // Amarillo para otros valores
+    strokeColor = '#F59E0B';  // Amarillo para 1% - 99%
   }
 
   return (
-    <div className="relative">
+    <div className="relative w-20 h-20">
       {/* Círculo gris de fondo */}
-      <svg className="w-12 h-12">
+      <svg className="w-full h-full">
         <circle
-          cx="24"
-          cy="24"
+          cx="50%"
+          cy="50%"
           r="20"
-          className="text-gray-300"  // Siempre visible en gris
+          stroke="#D1D5DB"  // Fondo gris
           strokeWidth="4"
           fill="none"
         />
-        {/* Círculo de progreso */}
+        {/* Círculo de progreso con el color según el valor */}
         <circle
-          cx="24"
-          cy="24"
+          cx="50%"
+          cy="50%"
           r="20"
-          className={color}  // Color dependiendo del valor
+          stroke={strokeColor}  // Usamos strokeColor directamente
           strokeWidth="4"
-          strokeDasharray="126"
-          strokeDashoffset={strokeDashoffset}
+          strokeDasharray="126"  // Longitud del trazo total
+          strokeDashoffset={126 - (value * 1.26)}  // Calcula el progreso visual
           fill="none"
           strokeLinecap="round"
         />
       </svg>
+
       {/* Texto del porcentaje dentro del círculo */}
-      <span className="absolute inset-0 flex items-center justify-center text-sm font-medium">
+      <span className="absolute inset-0 flex items-center justify-center text-sm font-medium text-gray-800">
         {Math.round(value)}%
       </span>
     </div>
