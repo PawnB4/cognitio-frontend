@@ -72,7 +72,7 @@ function AppLayout() {
         {/* Use ml-auto to push the button and NavbarAvatar to the right */}
         <div className="flex items-center ml-auto gap-4">
           <Button variant={'link'} className='hidden md:block text-secondary-foreground text-xl' onClick={logout}>
-            Cerrar sesión
+            CERRAR SESIÓN
           </Button>
           <NavbarAvatar user={user} />
         </div>

@@ -52,7 +52,7 @@ export const NavbarAvatar: React.FC<NavbarAvatarProps>= ({ user }) => {
                     <Link to="/profile">
                         <DropdownMenuItem>
                             <User />
-                            <span>Mi perfil</span>
+                            <span>PERFIL</span>
                         </DropdownMenuItem>
                     </Link>
                     <Link to="/progress">

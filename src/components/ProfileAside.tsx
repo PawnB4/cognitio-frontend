@@ -17,12 +17,12 @@ export const ProfileAside: React.FC<ProfileAsideProps> = ({user}) => {
                     src={user.image_url} />
                 <AvatarFallback>{user.username.slice(0, 2).toUpperCase()}</AvatarFallback>
             </Avatar>
-            <p className="text-secondary-foreground text-2xl">{user.username}</p>
+            <p className="text-secondary-foreground text-2xl">{user.username.toUpperCase()}</p>
             <Button asChild variant={"outline"} size={"sm"} className="self-stretch">
-                <Link to="/profile" className="w-full">Mi perfil</Link>
+                <Link to="/profile" className="w-full">PERFIL</Link>
             </Button>
             <Button variant={"outline"} size={"sm"} className="self-stretch">
-                <Link to="/progress" className="w-full">Mi progreso</Link>
+                <Link to="/progress" className="w-full">PROGRESO</Link>
             </Button>
         </div>
     )

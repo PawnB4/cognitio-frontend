@@ -92,7 +92,7 @@ function ReadAndConcludeGame() {
   if (error) {
     return (
       <div className="col-span-full flex justify-center items-center">
-        <h1 className="p-12 bg-white w-full text-center text-2xl">
+        <h1 className="p-12 bg-white w-full text-center text-2xl uppercase">
           Algo salió mal. Por favor intena nuevamente.
         </h1>
       </div>
@@ -114,7 +114,7 @@ function ReadAndConcludeGame() {
             strokeWidth={1}
           />
           <span className="text-2xl font-bold text-white tracking-wide">
-            Volver
+            VOLVER
           </span>
         </Link>
       </div>
@@ -134,11 +134,11 @@ function ReadAndConcludeGame() {
                 <h1 className="font-extrabold font-title text-4xl text-white text-balance text-center ">
                   LEE Y CONCLUYE
                 </h1>
-                <p className="text-white text-2xl text-balance text-center">
+                <p className="text-white text-2xl text-balance text-center uppercase">
                   Lee la historia con atención y selecciona la persona correcta
                   que realizó la acción indicada en la pregunta.
                 </p>
-                <p className="text-white text-3xl text-balance text-center">
+                <p className="text-white text-3xl text-balance text-center uppercase">
                   Selecciona la <strong>DIFICULTAD</strong>
                 </p>
                 <div className="flex flex-col md:flex-row w-full justify-evenly gap-2">

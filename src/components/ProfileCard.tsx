@@ -69,8 +69,7 @@ export function ProfileCard({
     <div className="bg-white rounded-2xl w-full md:w-[300px] md:h-[400px] lg:w-[600px] flex flex-col md:flex-row lg:flex-col items-center justify-center overflow-hidden shadow-lg mt-20 sm:mt-0">
       <div className="bg-yellow-400 p-4 w-full align-top">
         <div className="flex align-middle">
-          <h2 className="text-black text-2xl font-medium w-full">{name}</h2>
-          <h3 className="text-black/90 text-lg w-full text-end">{date}</h3>
+          <h2 className="text-black text-2xl font-medium w-full uppercase">{name}</h2>
         </div>
       </div>
 

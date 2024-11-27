@@ -37,7 +37,7 @@ function Profile() {
             className="group-hover:scale-105 transition-transform"
           />
           <span className="text-2xl font-bold text-white tracking-wide">
-            Volver
+            VOLVER
           </span>
         </Link>
       </div>

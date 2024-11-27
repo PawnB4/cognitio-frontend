@@ -82,7 +82,7 @@ export function CharacterSelection({
     <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
       <div className="bg-white w-[90%] max-w-[700px] transform transition-all">
         <div className="flex justify-between items-center p-4 border-b">
-          <h2 className="text-xl font-semibold">Elige tu personaje</h2>
+          <h2 className="text-xl font-semibold uppercase">Elige tu personaje</h2>
           <button
             onClick={onClose}
             className="p-1 hover:bg-gray-100 rounded-full transition-colors"

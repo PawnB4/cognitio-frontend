@@ -92,7 +92,7 @@ function SynAntGame() {
   if (error) {
     return (
       <div className='col-span-full flex justify-center items-center'>
-        <h1 className='p-12 bg-white w-full text-center text-xl'>
+        <h1 className='p-12 bg-white w-full text-center text-xl uppercase'>
           Algo salió mal. Por favor intena nuevamente.
         </h1>
       </div>
@@ -114,7 +114,7 @@ function SynAntGame() {
             strokeWidth={1}
           />
           <span className="text-2xl font-bold text-white tracking-wide">
-            Volver
+            VOLVER
           </span>
         </Link>
       </div>
@@ -132,10 +132,10 @@ function SynAntGame() {
               </div>
               <div className='flex flex-col items-center justify-around gap-4'>
                 <h1 className='font-extrabold font-title text-4xl text-white text-balance text-center'>COMPAÑEROS Y CONTRARIOS</h1>
-                <p className='text-white text-2xl text-balance text-center'
+                <p className='text-white text-2xl text-balance text-center uppercase'
                 >Tendrás que leer las palabras y elegir sus <strong>sinónimos</strong> (compañeros) o <strong>antónimos</strong> (contrarios).</p>
                 <p
-                  className='text-white text-3xl text-balance text-center'
+                  className='text-white text-3xl text-balance text-center uppercase'
                 >Selecciona la  <strong>DIFICULTAD</strong></p>
                 <div
                   className='flex flex-col md:flex-row w-full justify-evenly gap-2'

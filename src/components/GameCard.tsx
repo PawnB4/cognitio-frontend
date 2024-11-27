@@ -32,7 +32,7 @@ return (
     </CardHeader>
     <CardContent className="flex flex-col gap-3">
       <CardTitle className="text-2xl text-balance text-center xl:text-left">{title.toUpperCase()}</CardTitle>
-      <CardDescription className="text-balance font-bold text-white text-center md:text-left">{description}</CardDescription>
+      <CardDescription className="text-balance font-bold text-white text-center md:text-left uppercase">{description}</CardDescription>
     </CardContent>
     <CardFooter className="mt-auto">
       <Button asChild className="w-full font-bold">

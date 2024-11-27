@@ -112,7 +112,7 @@ function WhoWasItGame() {
             strokeWidth={1}
           />
           <span className="text-2xl font-bold text-white tracking-wide">
-            Volver
+            VOLVER
           </span>
         </Link>
       </div>
@@ -131,10 +131,10 @@ function WhoWasItGame() {
               <div className='flex flex-col items-center justify-around gap-4'>
                 <h1 className='font-extrabold font-title text-4xl text-white text-balance text-center '>¿QUIÉN FUE?</h1>
                 <p
-                  className='text-white text-2xl text-balance text-center'
+                  className='text-white text-2xl text-balance text-center uppercase'
                 >Lee la historia con atención y selecciona la persona correcta que realizó la acción indicada en la pregunta</p>
                 <p
-                  className='text-white text-3xl text-balance text-center'
+                  className='text-white text-3xl text-balance text-center uppercase'
                 >Selecciona la <strong>DIFICULTAD</strong></p>
                 <div
                   className='flex flex-col md:flex-row w-full justify-evenly gap-2'
