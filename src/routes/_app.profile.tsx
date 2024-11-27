@@ -24,7 +24,7 @@ function Profile() {
 
   return (
     <div className="col-span-full flex flex-col">
-      <div className="w-11/12 mx-auto mt-12 mb-8 hidden md:block">
+      <div className="w-11/12 mx-auto mt-12 hidden md:block">
         <Link
           to="/dashboard"
           className="flex select-none items-center gap-4 cursor-pointer group"

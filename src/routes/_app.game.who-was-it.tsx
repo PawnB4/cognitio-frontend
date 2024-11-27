@@ -121,7 +121,7 @@ function WhoWasItGame() {
         w-full xl:w-[1200px] justify-center items-center md:items-stretch md:justify-around'>
           {gameStatus === "unstarted" &&
             <>
-              <div className='hidden md:block md:w-full'>
+              <div className='hidden md:block md:w-3/5'>
                 <img
                   src="https://res.cloudinary.com/dr4iesryu/image/upload/v1731502480/Designer_3_1_2_v2yfyo.svg"
                   alt="Game Image"

@@ -123,7 +123,7 @@ function SynAntGame() {
         w-full xl:w-[1200px] justify-center items-center md:items-stretch md:justify-around'>
           {gameStatus === "unstarted" &&
             <>
-              <div className='hidden md:block md:w-full'>
+              <div className='hidden md:block md:w-3/5'>
                 <img
                   src="https://res.cloudinary.com/dr4iesryu/image/upload/v1731502189/Designer_4_1_pyyioc.svg"
                   alt="Game Image"

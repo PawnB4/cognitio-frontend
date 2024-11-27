@@ -78,9 +78,9 @@ function Progress() {
 
       <div className="flex justify-center px-4">
 
-        <div className="bg-white rounded-lg shadow-lg p-8 w-full max-w-lg mt-6 sm:mt-0">
+        <div className="bg-white rounded-lg shadow-lg p-8 w-full max-w-4xl mt-6 sm:flex">
           {/* Avatar y Título */}
-          <div className="flex flex-col items-center mb-6 gap-6 justify-center">
+          <div className="flex flex-col items-center mb-6 gap-3 justify-center">
             <img
               src={avatarUrl} // Muestra la imagen del usuario o una imagen por defecto
               alt="Avatar"
@@ -96,7 +96,7 @@ function Progress() {
               <SpinningIndicator size={20} bgColor='#162535' />
             </div>
           ) : (
-            <div className='grid grid-cols-2 gap-6 justify-items-center'>
+            <div className='grid grid-cols-2 gap-3 justify-items-center'>
               <h1 className='font-title font-bold text-xl'>Juego</h1>
               <h1 className='font-title font-bold text-xl'>Estadísticas</h1>
               <p className='self-center text-center text-balance'>Lee y Concluye</p>
@@ -120,7 +120,7 @@ function Progress() {
 const ProgressRing = ({ percentage, size = 80 }) => {
   // Determine color based on percentage
   const getColor = () => {
-    if (percentage === 100) return 'stroke-amber-300';
+    if (percentage === 100) return 'stroke-green-500';
     if (percentage < 25) return 'stroke-red-500';
     if (percentage < 75) return 'stroke-orange-300';
     return 'stroke-green-500';
