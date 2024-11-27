@@ -1,4 +1,5 @@
-import { createFileRoute } from '@tanstack/react-router'
+import { createFileRoute,Link } from '@tanstack/react-router';
+import { CircleArrowLeft } from "lucide-react";
 import { useState, useEffect } from 'react';
 
 export const Route = createFileRoute('/_app/progress')({
@@ -99,8 +100,24 @@ function Progress() {
 
 
   return (
+
+    <div className="col-span-full flex flex-col">
+    {/* Botón de retroceso */}
+    <div className="w-11/12 mx-auto mt-6 mb-8">
+      <Link to="/dashboard" className="flex select-none items-center gap-4 cursor-pointer group">
+        <CircleArrowLeft
+          fill="#4ABC96"
+          stroke="white"
+          size={60}
+          strokeWidth={1}
+          className="group-hover:scale-105 transition-transform"
+        />
+        <span className="text-2xl font-bold text-white  tracking-wide">Volver</span>
+      </Link>
+    </div>
     
-    <div className="flex items-center justify-center min-h-screen ">
+    
+    <div className="flex items-center justify-center ">
       {/* Tarjeta de Progreso */}
       <div className="bg-white rounded-lg shadow-lg p-8 w-full max-w-lg">
         {/* Avatar y Título */}
@@ -129,6 +146,7 @@ function Progress() {
           <ProgressCircle value={progress.leeYConcluye} />
         </div>
       </div>
+    </div>
     </div>
   );
 }
