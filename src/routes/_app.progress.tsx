@@ -58,7 +58,7 @@ function Progress() {
 
   return (
     <div className="col-span-full flex flex-col ">
-      <div className="w-11/12 mx-auto mt-12 mb-8 hidden md:block">
+      <div className="w-11/12 mx-auto mt-12 hidden md:block">
         <Link
           to="/dashboard"
           className="flex select-none items-center gap-4 cursor-pointer group"
@@ -78,7 +78,7 @@ function Progress() {
 
       <div className="flex justify-center px-4">
 
-        <div className="bg-white rounded-lg shadow-lg p-8 w-full max-w-lg mt-6">
+        <div className="bg-white rounded-lg shadow-lg p-8 w-full max-w-lg mt-6 sm:mt-0">
           {/* Avatar y Título */}
           <div className="flex flex-col items-center mb-6 gap-6 justify-center">
             <img
