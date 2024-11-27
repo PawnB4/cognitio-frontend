@@ -114,20 +114,18 @@ function Progress() {
         </div>
 
         {/* Tabla de Progreso */}
-        <div className="grid grid-cols-3 gap-4 text-center text-gray-700">
-          <div className="col-span-2 font-semibold">Estadísticas</div>
-          <div className="font-semibold">Logro Alcanzado</div>
+        <div className="grid grid-cols-2 gap-4 text-center text-gray-00 items-center justify-items-center">
 
         {/* Contrarios y compañeros */}
-        <div className="col-span-2 text-gray-600">Contrarios y Compañeros</div>
+        <div className="flex items-center justify-between text-gray-600">Contrarios y Compañeros</div>
           <ProgressCircle value={progress.contrariosYCompañeros} />
 
           {/* Quien fue */}
-          <div className="col-span-2 text-gray-600">¿Quién fue?</div>
+          <div className="flex items-center justify-between text-gray-600">¿Quién fue?</div>
           <ProgressCircle value={progress.quienFue} />
 
           {/* ¿Quién Fue? */}
-          <div className="col-span-2 text-gray-600">Lee y concluye</div>
+          <div className="flex items-center justify-between text-gray-600">Lee y concluye</div>
           <ProgressCircle value={progress.leeYConcluye} />
         </div>
       </div>
