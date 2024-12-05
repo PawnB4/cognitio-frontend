@@ -5,10 +5,12 @@ import { CircleArrowLeft } from 'lucide-react';
 import Cookies from "js-cookie";
 import { SpinningIndicator } from '@/components/SpinningIndicator';
 import { useQuery } from '@tanstack/react-query';
+import { Separator } from '@radix-ui/react-separator';
 
 export const Route = createFileRoute('/_app/progress')({
   component: Progress,
 })
+
 
 const baseURL = import.meta.env.VITE_BACKEND_URL;
 
@@ -38,15 +40,12 @@ function calculatePercentage(total: number, correct: number) {
 
 
 function Progress() {
-  const { user } = Route.useRouteContext();
-  const avatarUrl = user?.image_url;
 
   const { data: estadisticas, isPending, error } = useQuery({
     queryKey: ["progress"],
     queryFn: () => getProgress(),
   })
 
-  console.log(estadisticas)
 
   if (error) {
     return (
@@ -59,7 +58,7 @@ function Progress() {
   }
 
   return (
-    <div className="col-span-full flex flex-col ">
+    <div className="col-span-full flex flex-col uppercase">
       <div className="w-11/12 mx-auto mt-12 hidden md:block">
         <Link
           to="/dashboard"
@@ -79,57 +78,221 @@ function Progress() {
       </div>
 
       <div className="flex justify-center px-4">
+        <div className="bg-white rounded-lg shadow-lg p-4 sm:p-8 w-full max-w-7xl mt-6 progress-bg mb-9">
+          <div className='flex flex-col justify-center items-center sm:flex-row pb-4 gap-2'>
+            <div className='sm:w-[80%] sm:pl-8 flex flex-col justify-center gap-2 sm:gap-10'>
+              <h1 className='text-4xl font-title font-bold text-center sm:text-left'>PROGRESO</h1>
+              <h3 className='text-balance text-2xl text-center sm:text-left'>¡Mirá cómo te está yendo en cada juego!</h3>
 
-        <div className="bg-white rounded-lg shadow-lg p-8 w-full max-w-4xl mt-6 sm:flex">
-          {/* Avatar y Título */}
-          <div className="flex flex-col items-center mb-6 gap-3 justify-center">
+            </div>
             <img
-              src={avatarUrl} // Muestra la imagen del usuario o una imagen por defecto
-              alt="Avatar"
-              className="w-24 h-2w-24 rounded-full"
+              src={"/trophy-svgrepo-com.svg"}
+              alt="Trophy"
+              className='object-cover w-[100px] sm:w-[200px] -order-1 sm:order-1'
             />
-            <h2 className="text-3xl font-bold text-gray-800 bg">Mi progreso</h2>
-            <h1 className='text-center text-balance'>Acá podés consultar tu porcentaje de respuestas correctas para cada juego</h1>
           </div>
-
-
           {isPending ? (
             <div className='w-full h-[340px] relative flex justify-center items-center '>
               <SpinningIndicator size={20} bgColor='#162535' />
             </div>
           ) : (
-            <div className='grid grid-cols-2 gap-3 justify-items-center'>
-              <h1 className='font-title font-bold text-xl'>Juego</h1>
-              <h1 className='font-title font-bold text-xl'>Estadísticas</h1>
-              <p className='self-center text-center text-balance'>Lee y Concluye</p>
-              <ProgressRing
-                percentage={calculatePercentage(
-                  //@ts-ignore
-                  estadisticas.find((item) => item.type === "Lee y Concluye")?.total || 0,
-                  //@ts-ignore
-                  estadisticas.find((item) => item.type === "Lee y Concluye")?.correct || 0
-                )}
-              />
+            <div className='flex flex-col gap-6'>
+              {/* Lee y concluye */}
+              <div className='bg-gray-200 flex gap-4 rounded-lg'>
+                <img
+                  src={"https://res.cloudinary.com/dr4iesryu/image/upload/v1731502128/Dise%C3%B1o_sin_t%C3%ADtulo_1_ceqx2d.svg"}
+                  alt="Game Image"
+                  className='object-cover hidden sm:block'
+                />
+                <div className='p-3 w-full flex flex-col gap-3'>
+                  <h2 className='font-title font-bold text-3xl text-balance text-center sm:text-left'>Lee y Concluye</h2>
+                  <Separator className="w-full bg-secondary h-[1.8px]" />
+                  <div className='grid grid-cols-1 sm:grid-cols-3 gap-4'>
+                    <div className='flex flex-col gap-2 bg-white rounded shadow-md'>
+                      <div className='grid grid-cols-2 gap-y-2 justify-items-center items-center p-2'>
+                        <h3 className='font-semibold text-lg text-center '>Veces jugado</h3>
+                        <h3 className='font-semibold text-lg text-center '>Respuestas correctas</h3>
+                        {/* @ts-ignore */}
+                        <p className='font-semibold text-2xl text-center '>{estadisticas.find((item) => item.type === "Lee y Concluye" && item.level === 1)?.total / 5 || 0}</p>
+                        <ProgressRing
+                          percentage={calculatePercentage(
+                            //@ts-ignore
+                            estadisticas.find((item) => item.type === "Lee y Concluye" && item.level === 1)?.total || 0,
+                            //@ts-ignore
+                            estadisticas.find((item) => item.type === "Lee y Concluye" && item.level === 1)?.correct || 0
+                          )}
+                        />
+                      </div>
+                      <h3 className='bg-green-400 text-black text-center font-bold text-xl'>FACIL</h3>
+                    </div>
+                    <div className='flex flex-col gap-2 bg-white rounded shadow-md'>
+                      <div className='grid grid-cols-2 gap-y-2 justify-items-center items-center p-2'>
+                        <h3 className='font-semibold text-lg text-center '>Veces jugado</h3>
+                        <h3 className='font-semibold text-lg text-center '>Respuestas correctas</h3>
+                        {/* @ts-ignore */}
+                        <p className='font-semibold text-2xl text-center '>{estadisticas.find((item) => item.type === "Lee y Concluye" && item.level === 2)?.total / 5 || 0}</p>
+                        <ProgressRing
+                          percentage={calculatePercentage(
+                            //@ts-ignore
+                            estadisticas.find((item) => item.type === "Lee y Concluye" && item.level === 2)?.total || 0,
+                            //@ts-ignore
+                            estadisticas.find((item) => item.type === "Lee y Concluye" && item.level === 2)?.correct || 0
+                          )}
+                        />
+                      </div>
+                      <h3 className='bg-yellow-400 text-black text-center font-bold text-xl'>MEDIO</h3>
+                    </div>
+                    <div className='flex flex-col gap-2 bg-white rounded shadow-md'>
+                      <div className='grid grid-cols-2 gap-y-2 justify-items-center items-center p-2'>
+                        <h3 className='font-semibold text-lg text-center '>Veces jugado</h3>
+                        <h3 className='font-semibold text-lg text-center '>Respuestas correctas</h3>
+                        {/* @ts-ignore */}
+                        <p className='font-semibold text-2xl text-center '>{estadisticas.find((item) => item.type === "Lee y Concluye" && item.level === 3)?.total / 5 || 0}</p>
+                        <ProgressRing
+                          percentage={calculatePercentage(
+                            //@ts-ignore
+                            estadisticas.find((item) => item.type === "Lee y Concluye" && item.level === 3)?.total || 0,
+                            //@ts-ignore
+                            estadisticas.find((item) => item.type === "Lee y Concluye" && item.level === 3)?.correct || 0
+                          )}
+                        />
+                      </div>
+                      <h3 className='bg-red-400 text-black text-center font-bold text-xl'>DIFICIL</h3>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              {/* Contrarios y Compañeros */}
+              <div className='bg-gray-200 flex gap-4 rounded-lg'>
+                <img
+                  src={"https://res.cloudinary.com/dr4iesryu/image/upload/v1731502189/Designer_4_1_pyyioc.svg"}
+                  alt="Game Image"
+                  className='object-cover hidden sm:block'
+                />
+                <div className='p-3 w-full flex flex-col gap-3'>
+                  <h2 className='font-title font-bold text-3xl text-balance text-center sm:text-left'>Contrarios y Compañeros</h2>
+                  <Separator className="w-full bg-secondary h-[1.8px]" />
+                  <div className='grid grid-cols-1 sm:grid-cols-3 gap-4'>
+                    <div className='flex flex-col gap-2 bg-white rounded shadow-md'>
+                      <div className='grid grid-cols-2 gap-y-2 justify-items-center items-center p-2'>
+                        <h3 className='font-semibold text-lg text-center '>Veces jugado</h3>
+                        <h3 className='font-semibold text-lg text-center '>Respuestas correctas</h3>
+                        {/* @ts-ignore */}
+                        <p className='font-semibold text-2xl text-center '>{estadisticas.find((item) => item.type === "Contrarios y Compañeros" && item.level === 1)?.total / 5 || 0}</p>
+                        <ProgressRing
+                          percentage={calculatePercentage(
+                            //@ts-ignore
+                            estadisticas.find((item) => item.type === "Contrarios y Compañeros" && item.level === 1)?.total || 0,
+                            //@ts-ignore
+                            estadisticas.find((item) => item.type === "Contrarios y Compañeros" && item.level === 1)?.correct || 0
+                          )}
+                        />
+                      </div>
+                      <h3 className='bg-green-400 text-black text-center font-bold text-xl'>FACIL</h3>
+                    </div>
+                    <div className='flex flex-col gap-2 bg-white rounded shadow-md'>
+                      <div className='grid grid-cols-2 gap-y-2 justify-items-center items-center p-2'>
+                        <h3 className='font-semibold text-lg text-center '>Veces jugado</h3>
+                        <h3 className='font-semibold text-lg text-center '>Respuestas correctas</h3>
+                        {/* @ts-ignore */}
+                        <p className='font-semibold text-2xl text-center '>{estadisticas.find((item) => item.type === "Contrarios y Compañeros" && item.level === 2)?.total / 5 || 0}</p>
+                        <ProgressRing
+                          percentage={calculatePercentage(
+                            //@ts-ignore
+                            estadisticas.find((item) => item.type === "Contrarios y Compañeros" && item.level === 2)?.total || 0,
+                            //@ts-ignore
+                            estadisticas.find((item) => item.type === "Contrarios y Compañeros" && item.level === 2)?.correct || 0
+                          )}
+                        />
+                      </div>
+                      <h3 className='bg-yellow-400 text-black text-center font-bold text-xl'>MEDIO</h3>
+                    </div>
+                    <div className='flex flex-col gap-2 bg-white rounded shadow-md'>
+                      <div className='grid grid-cols-2 gap-y-2 justify-items-center items-center p-2'>
+                        <h3 className='font-semibold text-lg text-center '>Veces jugado</h3>
+                        <h3 className='font-semibold text-lg text-center '>Respuestas correctas</h3>
+                        {/* @ts-ignore */}
+                        <p className='font-semibold text-2xl text-center '>{estadisticas.find((item) => item.type === "Contrarios y Compañeros" && item.level === 3)?.total / 5 || 0}</p>
+                        <ProgressRing
+                          percentage={calculatePercentage(
+                            //@ts-ignore
+                            estadisticas.find((item) => item.type === "Contrarios y Compañeros" && item.level === 3)?.total || 0,
+                            //@ts-ignore
+                            estadisticas.find((item) => item.type === "Contrarios y Compañeros" && item.level === 3)?.correct || 0
+                          )}
+                        />
+                      </div>
+                      <h3 className='bg-red-400 text-black text-center font-bold text-xl'>DIFICIL</h3>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              {/* ¿Quién fue? */}
+              <div className='bg-gray-200 flex gap-4 rounded-lg'>
+                <img
+                  src={"https://res.cloudinary.com/dr4iesryu/image/upload/v1731502480/Designer_3_1_2_v2yfyo.svg"}
+                  alt="Game Image"
+                  className='object-cover hidden sm:block'
+                />
+                <div className='p-3 w-full flex flex-col gap-3'>
+                  <h2 className='font-title font-bold text-3xl text-balance text-center sm:text-left'>¿Quién fue?</h2>
+                  <Separator className="w-full bg-secondary h-[1.8px]" />
+                  <div className='grid grid-cols-1 sm:grid-cols-3 gap-4'>
+                    <div className='flex flex-col gap-2 bg-white rounded shadow-md'>
+                      <div className='grid grid-cols-2 gap-y-2 justify-items-center items-center p-2'>
+                        <h3 className='font-semibold text-lg text-center '>Veces jugado</h3>
+                        <h3 className='font-semibold text-lg text-center '>Respuestas correctas</h3>
+                        {/* @ts-ignore */}
+                        <p className='font-semibold text-2xl text-center '>{estadisticas.find((item) => item.type === "¿Quién fue?" && item.level === 1)?.total / 5 || 0}</p>
+                        <ProgressRing
+                          percentage={calculatePercentage(
+                            //@ts-ignore
+                            estadisticas.find((item) => item.type === "¿Quién fue?" && item.level === 1)?.total || 0,
+                            //@ts-ignore
+                            estadisticas.find((item) => item.type === "¿Quién fue?" && item.level === 1)?.correct || 0
+                          )}
+                        />
+                      </div>
+                      <h3 className='bg-green-400 text-black text-center font-bold text-xl'>FACIL</h3>
+                    </div>
+                    <div className='flex flex-col gap-2 bg-white rounded shadow-md'>
+                      <div className='grid grid-cols-2 gap-y-2 justify-items-center items-center p-2'>
+                        <h3 className='font-semibold text-lg text-center '>Veces jugado</h3>
+                        <h3 className='font-semibold text-lg text-center '>Respuestas correctas</h3>
+                        {/* @ts-ignore */}
+                        <p className='font-semibold text-2xl text-center '>{estadisticas.find((item) => item.type === "¿Quién fue?" && item.level === 2)?.total / 5 || 0}</p>
+                        <ProgressRing
+                          percentage={calculatePercentage(
+                            //@ts-ignore
+                            estadisticas.find((item) => item.type === "¿Quién fue?" && item.level === 2)?.total || 0,
+                            //@ts-ignore
+                            estadisticas.find((item) => item.type === "¿Quién fue?" && item.level === 2)?.correct || 0
+                          )}
+                        />
+                      </div>
+                      <h3 className='bg-yellow-400 text-black text-center font-bold text-xl'>MEDIO</h3>
+                    </div>
+                    <div className='flex flex-col gap-2 bg-white rounded shadow-md'>
+                      <div className='grid grid-cols-2 gap-y-2 justify-items-center items-center p-2'>
+                        <h3 className='font-semibold text-lg text-center '>Veces jugado</h3>
+                        <h3 className='font-semibold text-lg text-center '>Respuestas correctas</h3>
+                        {/* @ts-ignore */}
+                        <p className='font-semibold text-2xl text-center '>{estadisticas.find((item) => item.type === "¿Quién fue?" && item.level === 3)?.total / 5 || 0}</p>
+                        <ProgressRing
+                          percentage={calculatePercentage(
+                            //@ts-ignore
+                            estadisticas.find((item) => item.type === "¿Quién fue?" && item.level === 3)?.total || 0,
+                            //@ts-ignore
+                            estadisticas.find((item) => item.type === "¿Quién fue?" && item.level === 3)?.correct || 0
+                          )}
+                        />
+                      </div>
+                      <h3 className='bg-red-400 text-black text-center font-bold text-xl'>DIFICIL</h3>
+                    </div>
+                  </div>
+                </div>
+              </div>
 
-              <p className='self-center text-center text-balance'>Contrarios y Compañeros</p>
-              <ProgressRing
-                percentage={calculatePercentage(
-                  //@ts-ignore
-                  estadisticas.find((item) => item.type === "Contrarios y Compañeros")?.total || 0,
-                  //@ts-ignore
-                  estadisticas.find((item) => item.type === "Contrarios y Compañeros")?.correct || 0
-                )}
-              />
-
-              <p className='self-center text-center text-balance'>¿Quién fue?</p>
-              <ProgressRing
-                percentage={calculatePercentage(
-                  //@ts-ignore
-                  estadisticas.find((item) => item.type === "¿Quién fue?")?.total || 0,
-                  //@ts-ignore
-                  estadisticas.find((item) => item.type === "¿Quién fue?")?.correct || 0
-                )}
-              />
             </div>
           )}
         </div>
@@ -189,7 +352,7 @@ const ProgressRing = ({ percentage, size = 80 }) => {
 
       {/* Percentage text */}
       <div
-        className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-sm font-bold text-black bg-oran"
+        className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-lg font-bold text-black bg-oran"
       >
         {percentage}%
       </div>

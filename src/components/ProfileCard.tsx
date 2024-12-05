@@ -31,7 +31,6 @@ interface Character {
 
 export function ProfileCard({
   name,
-  date,
   avatarUrl,
   onChangeCharacter,
 }: ProfileCardProps) {

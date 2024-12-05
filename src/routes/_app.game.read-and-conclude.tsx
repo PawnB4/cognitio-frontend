@@ -135,8 +135,7 @@ function ReadAndConcludeGame() {
                   LEE Y CONCLUYE
                 </h1>
                 <p className="text-white text-2xl text-balance text-center uppercase">
-                  Lee la historia con atención y selecciona la persona correcta
-                  que realizó la acción indicada en la pregunta.
+                  Lee el texto con atención y selecciona la respuesta correcta según lo que entiendas del párrafo.
                 </p>
                 <p className="text-white text-3xl text-balance text-center uppercase">
                   Selecciona la <strong>DIFICULTAD</strong>
