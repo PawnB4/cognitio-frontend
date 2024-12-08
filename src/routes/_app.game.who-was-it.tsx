@@ -82,7 +82,7 @@ function WhoWasItGame() {
   }
 
   const { data: ejercicios = [], isPending, error, refetch } = useQuery<WhoWasItExercise[]>({
-    queryKey: ["syn-ant-game", difficultyLevel],
+    queryKey: ["who-was-it-game", difficultyLevel],
     queryFn: () => generateGame(3, difficultyLevel, 5),
     enabled: false
   })
