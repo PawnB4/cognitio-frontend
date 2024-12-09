@@ -5,9 +5,13 @@ import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { z } from "zod";
-import { SignupUserOptions, SignupUserResponse } from "@/api/types";
+import { LoginResponse, LoginUserOptions, SignupUserOptions, SignupUserResponse } from "@/api/types";
 import { useState } from "react";
 import CharacterSelectionRegister from "@/components/CharacterSelectionRegister";
+import { useMutation } from "@tanstack/react-query";
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+//@ts-ignore
+import Cookies from 'js-cookie'
 
 const baseURL = import.meta.env.VITE_BACKEND_URL;
 
@@ -40,9 +44,35 @@ const signupUser = async ({
   return data;
 };
 
+const loginUser = async ({email,password}:LoginUserOptions):Promise<LoginResponse> => {
+  const res = await fetch(`${baseURL}/user/login`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      email,
+      password
+    }),
+  });
+  if(!res.ok){
+    throw new Error
+  }
+  const data = await res.json();
+  return data;
+};
+
+
 function SignUp() {
   const navigate = useNavigate();
   const [selectedCharacter, setSelectedCharacter] = useState("");
+
+  const mutation = useMutation({
+    mutationFn: async (value: LoginUserOptions) => {
+      const res = await loginUser(value)
+      return res
+    },
+  })
 
   const form = useForm({
     validatorAdapter: zodValidator(),
@@ -61,9 +91,11 @@ function SignUp() {
           image_url: value.image_url,
           password: value.password,
         });
+        const { access_token } = await mutation.mutateAsync(value)
         form.reset();
         setSelectedCharacter("");
-        navigate({ to: "/login", replace: true });
+        Cookies.set('access_token', access_token)
+        navigate({ to: "/dashboard",replace:true });
       } catch (error) {
         console.log(error);
         alert("Completa todos los campos y el formato que solicita");
