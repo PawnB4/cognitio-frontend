@@ -119,7 +119,7 @@ export function WhoWasItGameScreen({ ejercicios, incrementarCorrectas, increment
             return (
               <p 
               key={index}
-              className="w-full font-bold text-center py-4 px-2 md:p-4 text-white text-2xl md:text-3xl rounded-2xl bg-green-400">
+              className="w-full font-bold text-center py-4 px-2 md:p-4 text-black text-2xl md:text-3xl rounded-2xl bg-green-400">
                 {opcion.toUpperCase()}
               </p>
             )
